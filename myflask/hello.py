@@ -31,9 +31,7 @@ def search():
     encrypted_id = res.json()['id']
     url_league = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{}".format(encrypted_id)
     res_league = requests.get(url=url_league,headers=headers)
-    print(res_league)
     league_dicts = res_league.json()
-    print(league_dicts)
 
 
     def get_league_info(league_dict):
