@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>우정머</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{{ url_for('static', filename='css/mdb.min.css') }}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="{{ url_for('static', filename='css/style.min.css') }}" rel="stylesheet">
+</head>
+<section class="card wow fadeIn" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/background3.jpg);">
+
+        
+        <div class="card-body text-white text-center py-5 px-5 my-5">
+
+          <h1 class="mb-4">
+            <strong>소환사 정보 검색</strong>
+          </h1>
+          <p>
+            <strong>소환사 정보를 검색해보세요!</strong>
+          </p>
+          <p class="mb-4">
+            <strong>우정머는 전적 분석을 통해 소환사님의 실력 향상에 도움을 드립니다. </strong>
+          </p>
+          <form action="/application">
+            <input type="text" name="name"/>
+            <input class="btn btn-outline-white btn-lg" type="submit" value="검색"/>
+        </form>
+        </div>
+        
+      </section>

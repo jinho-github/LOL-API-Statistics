@@ -1,0 +1,25 @@
+<!-- search.html -->
+<!DOCTYPE html>
+<head>
+    <title>전적검색결과</title>
+</head>
+<body>
+    <p>
+        {{sum_name}}님의 전적검색결과
+    </p>
+    {% if length != 0 %}
+        {% for result in results %}
+            <div> {{result[0]}} </div>
+            <div> {{result[1]}} {{result[2]}} 리그</div>
+            <div> {{result[-1]}} LP </div>
+            <div> {{result[3]}} 승 {{result[4]}} 패</div>
+            <div> {{result[5]}}</div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <div>아직 리그가 없습니다. 분발하세요!</div>
+    {% endif %}
+    <form action = '/'>
+        다시 검색하기 <input type="submit" value="Submit"/>
+    </form>
+</body>
