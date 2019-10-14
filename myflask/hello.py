@@ -10,6 +10,7 @@ app = Flask(__name__)
 apikey = os.environ['LOL_API_KEY']
 print("api_key\n",apikey)
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -29,6 +30,7 @@ def search():
     }
     res = requests.get(url=url,headers=headers)
     encrypted_id = res.json()['id']
+
     url_league = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/{}".format(encrypted_id)
     res_league = requests.get(url=url_league,headers=headers)
     league_dicts = res_league.json()
@@ -49,7 +51,9 @@ def search():
     results = []
     for league_dict in league_dicts:
         results.append(get_league_info(league_dict))
+        #results.append(아이콘넘버)
     length = len(results)
+    
 
     return render_template('application.html',sum_name=sum_name,results=results,length=length)
 
