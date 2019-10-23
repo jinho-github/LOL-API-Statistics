@@ -6,7 +6,6 @@ import urllib.parse
 
 app = Flask(__name__)
 
-
 apikey = os.environ['LOL_API_KEY']
 print("api_key\n",apikey)
 
