@@ -9,7 +9,6 @@ from bs4 import BeautifulSoup
 import re
 app = Flask(__name__)
 
-
 apikey = os.environ['LOL_API_KEY']
 print("api_key\n",apikey)
 
