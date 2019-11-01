@@ -156,6 +156,7 @@
       <ul class="list-unstyled list-inline font-small">
         {% if length != 0 %}
         {% for result in results %}
+        <li class="list-inline-item pr-2 white-text"> <strong>{{sum_name}}</strong> 님</li>
         <li class="list-inline-item pr-2 white-text"><i class="fas fa-trophy"></i> {{result[1]}} {{result[2]}} 리그</li>
         <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-fire"></i> {{result[-1]}} P</a></li>
         <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-level-up-alt"></i> </i>{{result[3]}} 승</a></li>
@@ -173,7 +174,35 @@
   </div>
    <!--Grid column-->
    <div class="col-lg-6 col-md-12">
-     모스트 챔피언이나 최근 통계 보여주기
+      <div class="col">
+
+        <!--Grid row-->
+<div class="row text-left">
+
+    <!--Grid column-->
+    <div class="col-lg-6 col-md-12">
+     <!--Image-->
+     <div class="view overlay rounded z-depth-1-half mb-3">
+        <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_0.jpg" class="img-thumbnail" alt="Sample post image">
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+      </div>
+      <!--Grid column-->
+    <div class="col-lg-6 col-md-12">
+      <h3><strong>MOST ONE</strong></h3>
+      <h5>oo으로 n게임 플레이</h5>
+      <h5>oo으로 n게임 승리</h5>
+      <h5><strong><div style="float:left;">K/D/A</div>
+        <div style="float:right;">0/0/0</div></strong></h5>
+
+    </div>
+      </div>
+        </div>
+        <div class="col">
+     <canvas id="lineChart"></canvas>
+     </div>
      </div>
      </div>
 
@@ -185,7 +214,7 @@
       <section id = "magazine" class="wow fadeIn">
 
         <!--Section heading-->
-        <h2 class="h1 text-center my-5 font-weight-bold">최근 경기</h2>
+        <h2 class="h1 text-center my-5 font-weight-bold">최근 게임</h2>
 
         <!--Grid row-->
         <div class="row text-left">
@@ -511,6 +540,43 @@
     // Animations initialization
     new WOW().init();
 
+  </script>
+  <script>
+  //line
+var ctxL = document.getElementById("lineChart").getContext('2d');
+var myLineChart = new Chart(ctxL, {
+type: 'line',
+data: {
+labels: ["7 게임 전", "6 게임 전", "5 게임 전", "4 게임 전", "3 게임 전", "2 게임 전", "최근 게임"],
+datasets: [{
+label: "K/A",
+data: [65, 59, 80, 81, 56, 55, 40],
+backgroundColor: [
+'rgba(0, 137, 132, .2)',
+],
+borderColor: [
+'rgba(0, 10, 130, .7)',
+],
+borderWidth: 2
+},
+{
+label: "D",
+data: [28, 48, 40, 19, 86, 27, 90],
+
+backgroundColor: [
+'rgba(105, 0, 132, .2)',
+],
+borderColor: [
+'rgba(200, 99, 132, .7)',
+],
+borderWidth: 2
+}
+]
+},
+options: {
+responsive: true
+}
+});
   </script>
 </body>
 
