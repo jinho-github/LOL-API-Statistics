@@ -42,7 +42,7 @@
           <!-- Left -->
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link waves-effect" href="/">Home
+              <!--<a class="nav-link waves-effect" href="/">Home-->
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -109,56 +109,73 @@
       <!--Section: Jumbotron-->
       <!-- Section: Team v.3 -->
   <section class="team-section my-5">
-  <!-- Grid row-->
-  <div class="row text-center text-md-left">
 
-    <!-- Grid column -->
-    <div class="col-xl-6 col-lg-12 mb-5 d-md-flex justify-content-between">
-      <div class="avatar mb-md-0 mb-1 mx-1">
-          {% if results[0][1] == 'IRON' %}
-        <img src="/static/img/emblems/Emblem_Iron.png" class="rounded z-depth-1" alt="Sample avatar">
+<!--Grid row-->
+<div class="row text-left">
+
+    <!--Grid column-->
+    <div class="col-lg-6 col-md-12">
+<!-- Card -->
+<div class="card">
+
+    <!-- Card image -->
+    <div class="view overlay">
+        {% if results[0][1] == 'IRON' %}
+        <img src="/static/img/emblems/Emblem_Iron.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'BRONZE' %}
-          <img src="/static/img/emblems/Emblem_Bronze.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Bronze.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'SILVER' %}
-          <img src="/static/img/emblems/Emblem_Silver.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Silver.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'GOLD' %}
-          <img src="/static/img/emblems/Emblem_Gold.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Gold.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'PLATINUM' %}
-          <img src="/static/img/emblems/Emblem_Platinum.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Platinum.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'DIAMOND' %}
-          <img src="/static/img/emblems/Emblem_Diamond.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Diamond.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'MASTER' %}
-          <img src="/static/img/emblems/Emblem_Master.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Master.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'GRANDMASTER' %}
-          <img src="/static/img/emblems/Emblem_Grandmaster.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Grandmaster.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
           {% elif results[0][1] == 'CHALLENGER' %}
-          <img src="/static/img/emblems/Emblem_Challenger.png" class="rounded z-depth-1" alt="Sample avatar">
+          <img src="/static/img/emblems/Emblem_Challenger.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
         {% endif %}
-      </div>
-      <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/profileicon/{{profileIcon}}.png" class="rounded z-depth-1" alt="Sample avatar">
-      
-      <div class="mx-1">
-        <h4 class="font-weight-bold mb-3">{{sum_name}}님의 전적검색결과입니다.</h4>
-        <h6 class="font-weight-bold grey-text mb-3">{% if length != 0 %}
-          {% for result in results %}
-              <div> {{result[0]}} </div>
-              <div> {{result[1]}} {{result[2]}} 리그</div>
-              <div> {{result[-1]}} LP </div>
-              <div> {{result[3]}} 승 {{result[4]}} 패</div>
-              <div> {{result[5]}}</div>
-              <br>
-          {% endfor %}
+
+
+      <a>
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+    
+    <!-- Card content -->
+    <div class="card-body">
+  
+    </div>
+  
+    <!-- Card footer -->
+    <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
+      <ul class="list-unstyled list-inline font-small">
+        {% if length != 0 %}
+        {% for result in results %}
+        <li class="list-inline-item pr-2 white-text"><i class="fas fa-trophy"></i> {{result[1]}} {{result[2]}} 리그</li>
+        <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-fire"></i> {{result[-1]}} P</a></li>
+        <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-level-up-alt"></i> </i>{{result[3]}} 승</a></li>
+        <li class="list-inline-item"><a href="#" class="white-text"><i class="fas fa-level-down-alt"></i> {{result[4]}} 패</a></li>
+        {% endfor %}
       {% else %}
           <div>아직 리그가 없습니다. 분발하세요!</div>
-      {% endif %}</h6>
-      
-       
-      </div>
-    </div>
-    <!-- Grid column -->
+      {% endif %}
 
+      </ul>
+    </div>
+  
   </div>
-  <!-- Grid row-->
+  <!-- Card -->
+  </div>
+   <!--Grid column-->
+   <div class="col-lg-6 col-md-12">
+     모스트 챔피언이나 최근 통계 보여주기
+     </div>
+     </div>
 
 </section>
 <!-- Section: Team v.3 -->
