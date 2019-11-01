@@ -115,7 +115,25 @@
     <!-- Grid column -->
     <div class="col-xl-6 col-lg-12 mb-5 d-md-flex justify-content-between">
       <div class="avatar mb-md-0 mb-1 mx-1">
-        <img src="/static/img/emblems/Emblem_Gold.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% if results[0][1] == 'IRON' %}
+        <img src="/static/img/emblems/Emblem_Iron.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'BRONZE' %}
+          <img src="/static/img/emblems/Emblem_Bronze.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'SILVER' %}
+          <img src="/static/img/emblems/Emblem_Silver.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'GOLD' %}
+          <img src="/static/img/emblems/Emblem_Gold.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'PLATINUM' %}
+          <img src="/static/img/emblems/Emblem_Platinum.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'DIAMOND' %}
+          <img src="/static/img/emblems/Emblem_Diamond.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'MASTER' %}
+          <img src="/static/img/emblems/Emblem_Master.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'GRANDMASTER' %}
+          <img src="/static/img/emblems/Emblem_Grandmaster.png" class="rounded z-depth-1" alt="Sample avatar">
+          {% elif results[0][1] == 'CHALLENGER' %}
+          <img src="/static/img/emblems/Emblem_Challenger.png" class="rounded z-depth-1" alt="Sample avatar">
+        {% endif %}
       </div>
       <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/profileicon/{{profileIcon}}.png" class="rounded z-depth-1" alt="Sample avatar">
       

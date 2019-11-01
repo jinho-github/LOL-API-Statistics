@@ -9,10 +9,9 @@ from bs4 import BeautifulSoup
 import re
 app = Flask(__name__)
 
+
 apikey = os.environ['LOL_API_KEY']
 print("api_key\n",apikey)
-
-
 @app.route('/')
 def index():
     myurl = "https://www.op.gg/champion/statistics"
@@ -126,13 +125,13 @@ def index():
                                         Mid_champ_name = Mid_champ_name, Mid_champ_pick_per = Mid_champ_pick_per, 
                                         Ad_champ_name = Ad_champ_name, Ad_champ_pick_per = Ad_champ_pick_per, 
                                         Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per)
-    
 @app.route('/application')
 def search():
     sum_name = request.args.get('name')
     #sum_name = urllib.parse.quote(sum_name) #URL Encoding
+    
     url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}".format(sum_name)
-    print(url)
+    
     headers = {
         "Origin": "https://developer.riotgames.com",
         "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -168,6 +167,16 @@ def search():
     
 
     return render_template('application.html',sum_name=sum_name,results=results,length=length, profileIcon=profileIcon_id)
+
+    #에러페이지 404, 500
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
