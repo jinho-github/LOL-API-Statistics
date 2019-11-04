@@ -9,7 +9,6 @@ from bs4 import BeautifulSoup
 import re
 app = Flask(__name__)
 
-
 apikey = os.environ['LOL_API_KEY']
 print("api_key\n",apikey)
 @app.route('/')
@@ -94,6 +93,7 @@ def index():
             get_name = get_name.text
             get_name = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', get_name) #특수한문자제거
             get_name = re.sub(" ", "", get_name) #공백제거
+            get_name = get_name.replace('KaiSa','Kaisa')#이미지 오류로 인해 이름 변경
             Ad_champ_name.append(get_name)
             #승률
             td_tag = link4.select('td')[4]
