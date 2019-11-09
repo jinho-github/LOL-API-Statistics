@@ -1,0 +1,78 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<head>
+<title>롤 전적 검색기</title>
+<style>
+   @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+body{
+  font-family: 'Open Sans', sans-serif;  
+}
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.searchTerm {
+  width: 100%;
+  border: 3px solid #12887A;
+  border-right: none;
+  padding: 5px;
+  height:50px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+  font-size: 25px;
+}
+
+.searchTerm:focus{
+  color: #12887A;
+}
+
+.searchButton {
+  width: 90px;
+  height: 66px;
+  border: 1px solid #12887A;
+  background: #12887A;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap{
+  width: 30%;
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+    /*로고*/ 
+div.logo {
+   text-align:center;    
+}
+form{
+    /*버튼 줄바꿈 없애기...안없어진다ㅠㅠ 줄바꿈ㅠㅠ*/
+    display:inline;    
+ }
+</style>
+</head>
+
+<body>
+    <div class="logo">
+        <img src="/static/img/logo_wgm.png" style="max-width: 40%; height: auto;">                        
+    </div>
+       
+    <div class="wrap">
+        <div class="search"> 
+            <form action="/data">
+            <input type="text" name="name" placeholder="소환사명"/>
+            <input type="submit"  value="검색"/>
+            </form>      
+        </div>     
+    </div>
+</body>
