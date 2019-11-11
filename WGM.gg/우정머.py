@@ -78,9 +78,18 @@ def data():
 
     for Match in Matches:
         Game_ID.append(get_matches_info(Match))
+
+    Game_ID = sum(Game_ID, [])
     length = len(Game_ID)
 
     #게임 데이터 가져오려고 노력중
+    for i in Game_ID:
+        url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID[i])
+        res_GameData = requests.get(url=url_GameData, headers=headers)
+        GameDatas = res_GameData.json()['participantIdentities']
+
+        print(GameDatas[i])
+
     '''
     url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Matches)
     res_GameData = requests.get(url=url_GameData, headers=headers)
