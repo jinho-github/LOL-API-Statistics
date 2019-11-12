@@ -1,16 +1,25 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request, url_for, session, redirect, flash
+import bcrypt
 import os
+from flask_pymongo import PyMongo
 import requests
-from pprint import pprint as pp
 import urllib.parse
 #끌어오기 
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import re
-app = Flask(__name__)
-
 apikey = os.environ['LOL_API_KEY']
-print("api_key\n",apikey)
+#mongokey = os.environ['MONGO_KEY']
+
+app = Flask(__name__)
+#DB와 비밀번호는 환경변수에서 가져온다.
+app.config['MONGO_URI'] = os.environ['MONGO_KEY']
+mongo = PyMongo(app)
+#client = pymongo.MongoClient(mongokey)
+#db = client.get_database('WGM_DB')
+
+
+
 @app.route('/')
 def index():
     myurl = "https://www.op.gg/champion/statistics"
@@ -177,6 +186,31 @@ def page_not_found(e):
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
+
+"""
+@app.route('/login_modal', method=['POST', 'GET'])
+def login():
+    return ''
+"""
+@app.route('/login_modal', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        myuser = mongo.db.user_Info
+        existing_user = myuser.find_one({'email' : request.form['register_email']})
+        #오류해결해야함..
+        if existing_user is None:
+            hashpass = bcrypt.hashpw(request.form['register_pw2'].encode('utf-8'), bcrypt.gensalt())
+            myuser.insert({'email' : request.form['register_email'], 'password' : hashpass})
+            #session['register_email'] = request.form['register_email']
+            flash("회원가입 완료!")
+            return redirect(url_for('index'))
+            
+        #message = '동일한 이메일이 존재합니다.'
+        return redirect(url_for('login'))
+
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

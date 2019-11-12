@@ -46,17 +46,6 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link waves-effect" href="#magazine">이동</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link waves-effect" href="https://mdbootstrap.com/docs/jquery/getting-started/download/"
-                target="_blank">Free download</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link waves-effect" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Free
-                tutorials</a>
-            </li> -->
           </ul>
 
           <!-- Right -->
@@ -65,7 +54,6 @@
                 <button onClick="location.href='/'" type="button" class="btn btn-outline-info waves-effect"><i class="fas fa-sync-alt mr-2"></i>다시검색</button>
             </li>
             <li class="nav-item">
-                
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalLRForm">로그인</button>
             </li>
           </ul>
@@ -542,7 +530,7 @@ responsive: true
 </body>
 
 <!-- 로그인 모달 -->
-{% from 'login.html' import render_login %}
+{% from 'login_modal.html' import render_login %}
     {{ render_login() }}
 
 </html>
