@@ -63,11 +63,10 @@ def data():
     res_SummonerName = requests.get(url=url_SummonerName, headers=headers)
     account_Id = res_SummonerName.json()['accountId'] #account id 가져오기
 
-    url_AccountID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}".format(account_Id) #{encryptedAccountId} = account_ID
-    res_AccountID = requests.get(url=url_AccountID, headers=headers)
-    Matches = res_AccountID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
-      
-    #<GameID 출력 확인>
+    url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}".format(account_Id) #{encryptedAccountId} = account_ID
+    res_GameID = requests.get(url=url_GameID, headers=headers)
+    Matches = res_GameID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
+    
     def get_matches_info(Match):
         res=[
             Match.get('gameId')
@@ -80,34 +79,45 @@ def data():
         Game_ID.append(get_matches_info(Match))
 
     Game_ID = sum(Game_ID, [])
-    length = len(Game_ID)
-
-    #게임 데이터 가져오려고 노력중
+    #게임 ID 출력 확인(100개)
+    '''
     for i in Game_ID:
+        print(i)
+    '''
+    
+    #게임 데이터 가져오려고 노력 중(20개씩)
+    ##단일 데이터 : MatchDuration(게임 플레이 시간)
+    ##리스트 안 딕셔너리 : participantIdentities
+    i = 0
+    game_Duration = []
+    while True:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID[i])
-        res_GameData = requests.get(url=url_GameData, headers=headers)
-        GameDatas = res_GameData.json()['participantIdentities']
+        res_GameData = requests.get(url=url_GameData, headers = headers)
+        
+        #단일 데이터
+        duration = res_GameData.json()['gameDuration']
+        game_Duration.append(duration)
 
-        print(GameDatas[i])
+        #다중 데이터
+        part = res_GameData.json()['participantIdentities']        
+        
+        i += 1
+        if i == 20 :
+            break
 
+    #duration 출력 확인(20개)
     '''
-    url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Matches)
-    res_GameData = requests.get(url=url_GameData, headers=headers)
-    GameDatas = res_GameData.json()['participantIdentities']
-
-    def get_player_info(GameData):
-        res=[
-            gamedata.get('participantIdentities')
-        ]
-        return res
-    
-    Game_Player_Name = []
-
-    for GameData in GameDatas:
-        Game_Player_Name.append()
+    for j in game_Duration:
+        print(j)
+    '''    
+    #participantIdentities 출력 확인(20개)
     '''
-    return render_template('search.html', results=Game_ID, length=length)
-    
+    for j in part :
+            print(j)
+    '''
+
+    return render_template('search.html', results=duration)
+    #return render_template('search.html' , results=Game_ID, length=length)
 if __name__ == '__main__':
     app.run(debug=True)
     
