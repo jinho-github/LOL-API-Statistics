@@ -4,26 +4,10 @@
     <title>전적검색결과</title>
 </head>
 <body>
-    {{results}}
-    <!--
-    <p>
-        {{sum_name}}님의 전적검색결과
-    </p>
+    최근 게임 플레이 시간 (단위 : 초) : {{results01}} </br>
     
-    {% if length != 0 %}
-        {% for result in results %}
-            <div> {{result[1]}} {{result[2]}} 리그</div>
-            <div> {{result[-1]}} LP </div>
-            <div> {{result[3]}} 승 {{result[4]}} 패</div>           
-            <br>
-        {%endfor%}
-    {%else%}
-        <div>아직 랭크를 하지 않았습니다.</div>
-    {% endif %}
-    <form action = '/'> 
-        <input type="submit" value="재검색"/>
-    </form>
-    -->
+    최근 게임 정보(20개) : {{results02}}
+    
 
 
 </body>

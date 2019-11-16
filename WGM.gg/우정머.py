@@ -90,6 +90,7 @@ def data():
     ##리스트 안 딕셔너리 : participantIdentities
     i = 0
     game_Duration = []
+    game_player = []
     while True:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID[i])
         res_GameData = requests.get(url=url_GameData, headers = headers)
@@ -100,7 +101,8 @@ def data():
 
         #다중 데이터
         part = res_GameData.json()['participantIdentities']        
-        
+        game_player.append(part)
+
         i += 1
         if i == 20 :
             break
@@ -116,7 +118,7 @@ def data():
             print(j)
     '''
 
-    return render_template('search.html', results=duration)
+    return render_template('search.html', results01=game_Duration, results02=game_player)
     #return render_template('search.html' , results=Game_ID, length=length)
 if __name__ == '__main__':
     app.run(debug=True)
