@@ -1,536 +1,172 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>WGM - 우리 정글 뭐함?</title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <!-- Bootstrap core CSS -->
-  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="{{ url_for('static', filename='css/mdb.min.css') }}" rel="stylesheet">
-  <!-- Your custom styles (optional) -->
-  <link href="{{ url_for('static', filename='css/style.min.css') }}" rel="stylesheet">
-</head>
+{% block content %}
+<!--Main layout-->
+<main class="mt-5 pt-5">
+  <div class="container">
 
-<body>
+    <section class="team-section my-5">
 
-  <!--Main Navigation-->
-  <header>
+      <!--Grid row-->
+      <div class="row text-left">
 
-    <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
-      <div class="container">
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12">
+          <!-- Card -->
+          <div class="card">
 
-        <!-- Brand -->
-        <a class="navbar-brand waves-effect" href="">
-          <img src="/static/img/WGMimgresize.png" alt=""><strong class="blue-text">WGM.GG</strong>
-        </a>
-
-        <!-- Collapse -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Links -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
-          <!-- Left -->
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <!--<a class="nav-link waves-effect" href="/">Home-->
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-          </ul>
-
-          <!-- Right -->
-          <ul class="navbar-nav nav-flex-icons">
-            <li class="nav-item">
-                <button onClick="location.href='/'" type="button" class="btn btn-outline-info waves-effect"><i class="fas fa-sync-alt mr-2"></i>다시검색</button>
-            </li>
-            <li class="nav-item">
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalLRForm">로그인</button>
-            </li>
-          </ul>
-          
-
-        </div>
-
-      </div>
-    </nav>
-    <!-- Navbar -->
-
-  </header>
-  <!--Main Navigation-->
-
-  <!--Main layout-->
-  <main class="mt-5 pt-5">
-    <div class="container">
-
-  <section class="team-section my-5">
-
-<!--Grid row-->
-<div class="row text-left">
-
-    <!--Grid column-->
-    <div class="col-lg-6 col-md-12">
-<!-- Card -->
-<div class="card">
-
-    <!-- Card image -->
-    <div class="view overlay">
-        {% if results[0][1] == 'IRON' %}
-        <img src="/static/img/emblems/Emblem_Iron.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'BRONZE' %}
-          <img src="/static/img/emblems/Emblem_Bronze.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'SILVER' %}
-          <img src="/static/img/emblems/Emblem_Silver.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'GOLD' %}
-          <img src="/static/img/emblems/Emblem_Gold.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'PLATINUM' %}
-          <img src="/static/img/emblems/Emblem_Platinum.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'DIAMOND' %}
-          <img src="/static/img/emblems/Emblem_Diamond.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'MASTER' %}
-          <img src="/static/img/emblems/Emblem_Master.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'GRANDMASTER' %}
-          <img src="/static/img/emblems/Emblem_Grandmaster.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-          {% elif results[0][1] == 'CHALLENGER' %}
-          <img src="/static/img/emblems/Emblem_Challenger.png" style="width:50%" class="rounded mx-auto d-block" alt="Card image cap">
-        {% endif %}
+            <!-- Card image -->
+            <div class="view overlay">
+              {% if results[0][1] == 'IRON' %}
+              <img src="/static/img/emblems/Emblem_Iron.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'BRONZE' %}
+              <img src="/static/img/emblems/Emblem_Bronze.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'SILVER' %}
+              <img src="/static/img/emblems/Emblem_Silver.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'GOLD' %}
+              <img src="/static/img/emblems/Emblem_Gold.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'PLATINUM' %}
+              <img src="/static/img/emblems/Emblem_Platinum.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'DIAMOND' %}
+              <img src="/static/img/emblems/Emblem_Diamond.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'MASTER' %}
+              <img src="/static/img/emblems/Emblem_Master.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'GRANDMASTER' %}
+              <img src="/static/img/emblems/Emblem_Grandmaster.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'CHALLENGER' %}
+              <img src="/static/img/emblems/Emblem_Challenger.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% endif %}
 
 
-      <a>
-        <div class="mask rgba-white-slight"></div>
-      </a>
-    </div>
-    
-    <!-- Card content -->
-    <div class="card-body">
-  
-    </div>
-  
-    <!-- Card footer -->
-    <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
-      <ul class="list-unstyled list-inline font-small">
-        {% if length != 0 %}
-        {% for result in results %}
-        <li class="list-inline-item pr-2 white-text"> <strong>{{sum_name}}</strong> 님</li>
-        <li class="list-inline-item pr-2 white-text"><i class="fas fa-trophy"></i> {{result[1]}} {{result[2]}} 리그</li>
-        <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-fire"></i> {{result[-1]}} P</a></li>
-        <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-level-up-alt"></i> </i>{{result[3]}} 승</a></li>
-        <li class="list-inline-item"><a href="#" class="white-text"><i class="fas fa-level-down-alt"></i> {{result[4]}} 패</a></li>
-        {% endfor %}
-      {% else %}
-          <div>아직 리그가 없습니다. 분발하세요!</div>
-      {% endif %}
-
-      </ul>
-    </div>
-  
-  </div>
-  <!-- Card -->
-  </div>
-   <!--Grid column-->
-   <div class="col-lg-6 col-md-12">
-      <div class="col">
-
-        <!--Grid row-->
-<div class="row text-left">
-
-    <!--Grid column-->
-    <div class="col-lg-4 col-md-12">
-     <!--Image-->
-     <div class="view overlay rounded z-depth-1-half mb-">
-        <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/Lux.png" class="img-thumbnail" alt="Sample post image">
-        <a>
-          <div class="mask rgba-white-slight"></div>
-        </a>
-      </div>
-      </div>
-      <!--Grid column-->
-    <div class="col-lg-8 col-md-12">
-        <blockquote class="blockquote bq-primary">
-      <h3 class="h3">MOST ONE</h3>
-      <h6 class="h6-responsive">최근몇 경기? 이번시즌? oo으로 n게임 플레이</h6>
-      <h6 class="h6-responsive">oo으로 n게임 승리</h6>
-      <h6 class="h6-responsive"><strong><div style="float:left;">K/D/A</div>
-        <div style="float:right;">0/0/0</div></strong></h6>
-      </blockquote>
-    </div>
-      </div>
-        </div>
-        <hr>
-        <div class="col">
-     <canvas id="lineChart"></canvas>
-     </div>
-     </div>
-     </div>
-
-</section>
-<!-- Section: Team v.3 -->
-      <hr class="my-5">
-
-      <!--Section: Magazine v.1-->
-      <section id = "magazine" class="wow fadeIn">
-
-        <!--Section heading-->
-        <h2 class="h1 text-center my-5 font-weight-bold">최근 게임</h2>
-
-        <!--Grid row-->
-        <div class="row text-left">
-
-          <!--Grid column-->
-          <div class="col-lg-6 col-md-12">
-
-            <!--Image-->
-            <div class="view overlay rounded z-depth-1-half mb-3">
-              <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lux_0.jpg" class="img-fluid" alt="Sample post image">
               <a>
                 <div class="mask rgba-white-slight"></div>
               </a>
             </div>
 
-            <!--Excerpt-->
-            <div class="news-data">
-              <a href="" class="light-blue-text">
-                <h6>
-                  <i class="far fa-smile"></i>
-                  <strong> 가장 활약한 경기</strong>
-                </h6>
-              </a>
-              <p>
-                <strong>
-                  <i class="fas fa-chart-pie"></i> 킬/데스/어시스트</strong>
-              </p>
-            </div>
-            <h3>
-              <a>
-                <strong>안타까운 점</strong>
-              </a>
-            </h3>
-            <p> 설명
-            </p>
-
-            <!--/Featured news-->
-
-            <hr>
-
-            <!--Small news-->
-            <div class="row">
-              <div class="col-md-1">
-                  <strong><h5 class = "text-primary">W</h5></strong></div>
-              <div class="col-md-3">
-
-                <!--Image-->
-                <div class="view overlay rounded z-depth-1">
-                  <img src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Lux.png" class="img-fluid" alt="Minor sample post image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-              </div>
-
-              <!--Excerpt-->
-              <div class="col-md-8">
-                <p class="dark-grey-text">
-                  <strong>킬/데스/어시스트</strong>
-                </p>
-                <a><strong class = "text-muted">간단한 설명</strong>
-                  <i class="fas fa-angle-right float-right"></i>
-                </a>
-              </div>
+            <!-- Card content -->
+            <div class="card-body">
 
             </div>
-            <div class="row">
-              <div class="col-3"></div>
-              <div class="col">
-                  <ul class="list-group list-group-flush">
-                      <li class="list-group-item">시야점수</li>
-                      <li class="list-group-item">킬관여율</li>
-                      <li class="list-group-item">딜량</li>
-                      <li class="list-group-item">CC기 잘맞춤</li>
-                      <li class="list-group-item">오브젝트킬러</li>
-                    </ul>
-              </div>
+
+            <!-- Card footer -->
+            <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
+              <ul class="list-unstyled list-inline font-small">
+                {% if length != 0 %}
+                {% for result in results %}
+                <li class="list-inline-item pr-2 white-text"> <strong>{{sum_name}}</strong> 님</li>
+                <li class="list-inline-item pr-2 white-text"><i class="fas fa-trophy"></i> {{result[1]}} {{result[2]}}
+                  리그</li>
+                <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-fire"></i>
+                    {{result[-1]}} P</a></li>
+                <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-level-up-alt"></i>
+                    </i>{{result[3]}} 승</a></li>
+                <li class="list-inline-item"><a href="#" class="white-text"><i class="fas fa-level-down-alt"></i>
+                    {{result[4]}} 패</a></li>
+                {% endfor %}
+                {% else %}
+                <div>아직 리그가 없습니다. 분발하세요!</div>
+                {% endif %}
+
+              </ul>
             </div>
-
-            <!--/Small news-->
-
-            <hr>
-
-            <!--Small news-->
-            <div class="row">
-              <div class="col-md-3">
-
-                <!--Image-->
-                <div class="view overlay rounded z-depth-1">
-                  <img src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Aatrox.png" class="img-fluid" alt="Minor sample post image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-              </div>
-
-              <!--Excerpt-->
-              <div class="col-md-9">
-                <p class="dark-grey-text">
-                  <strong>킬/데스/어시스트</strong>
-                </p>
-                <a>Soluta nobis est eligendi
-                  <i class="fas fa-angle-right float-right"></i>
-                </a>
-              </div>
-
-            </div>
-            <!--/Small news-->
-
-            <hr>
-
-            <!--Small news-->
-            <div class="row">
-              <div class="col-md-3">
-
-                <!--Image-->
-                <div class="view overlay rounded z-depth-1">
-                  <img src="https://mdbootstrap.com/img/Photos/Others/images/49.jpg" class="img-fluid" alt="Minor sample post image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-              </div>
-
-              <!--Excerpt-->
-              <div class="col-md-9">
-                <p class="dark-grey-text">
-                  <strong>킬/데스/어시스트</strong>
-                </p>
-                <a>Voluptatem accusantium doloremque
-                  <i class="fas fa-angle-right float-right"></i>
-                </a>
-              </div>
-
-            </div>
-            <!--/Small news-->
 
           </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-lg-6 col-md-12">
-
-            <!--Image-->
-            <div class="view overlay rounded z-depth-1-half mb-3">
-              <img src="https://images.mir.pe/file/a364acee0fb2ed0e5e300cbdd16ed50393e56d5c36403fa0fef7e30b7bb21f9f" class="img-fluid" alt="Sample post image">
-              <a>
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-
-            <!--Excerpt-->
-            <div class="news-data">
-              <a href="" class="light-blue-text">
-                <h6>
-                  <i class="far fa-frown"></i>
-                  <strong> 활약하지 못한 경기</strong>
-                </h6>
-              </a>
-              <p>
-                <strong>
-                  <i class="fas fa-chart-pie"></i> 킬/데스/어시스트</strong>
-              </p>
-            </div>
-            <h3>
-              <a>
-                <strong>패배 원인 분석</strong>
-              </a>
-            </h3>
-            <p> 설명
-            </p>
-
-            <!--/Featured news-->
-
-            <hr>
-
-            <!--Small news-->
-            <div class="row">
-              <div class="col-md-3">
-
-                <!--Image-->
-                <div class="view overlay rounded z-depth-1">
-                  <img src="https://mdbootstrap.com/img/Photos/Others/photo11.jpg" class="img-fluid" alt="Minor sample post image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-              </div>
-
-              <!--Excerpt-->
-              <div class="col-md-9">
-                <p class="dark-grey-text">
-                  <strong>킬/데스/어시스트</strong>
-                </p>
-                <a>Lorem ipsum dolor sit amet
-                  <i class="fas fa-angle-right float-right"></i>
-                </a>
-              </div>
-
-            </div>
-            <!--/Small news-->
-
-            <hr>
-
-            <!--Small news-->
-            <div class="row">
-              <div class="col-md-3">
-
-                <!--Image-->
-                <div class="view overlay rounded z-depth-1">
-                  <img src="https://mdbootstrap.com/img/Photos/Others/images/51.jpg" class="img-fluid" alt="Minor sample post image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-              </div>
-
-              <!--Excerpt-->
-              <div class="col-md-9">
-                <p class="dark-grey-text">
-                  <strong>킬/데스/어시스트</strong>
-                </p>
-                <a>Soluta nobis est eligendi
-                  <i class="fas fa-angle-right float-right"></i>
-                </a>
-              </div>
-
-            </div>
-            <!--/Small news-->
-
-            <hr>
-
-            <!--Small news-->
-            <div class="row">
-              <div class="col-md-3">
-
-                <!--Image-->
-                <div class="view overlay rounded z-depth-1">
-                  <img src="https://mdbootstrap.com/img/Photos/Others/images/44.jpg" class="img-fluid" alt="Minor sample post image">
-                  <a>
-                    <div class="mask rgba-white-slight"></div>
-                  </a>
-                </div>
-              </div>
-
-              <!--Excerpt-->
-              <div class="col-md-9">
-                <p class="dark-grey-text">
-                  <strong>킬/데스/어시스트</strong>
-                </p>
-                <a>Voluptatem accusantium doloremque
-                  <i class="fas fa-angle-right float-right"></i>
-                </a>
-              </div>
-
-            </div>
-            <!--/Small news-->
-
-          </div>
-          <!--Grid column-->
-
+          <!-- Card -->
         </div>
-        <!--Grid row-->
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12">
+          <div class="col">
 
-      </section>
-      <!--/Section: Magazine v.1-->
+            <!--Grid row-->
+            <div class="row text-left">
 
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-12">
+                <!--Image-->
+                <div class="view overlay rounded z-depth-1-half mb-">
+                  <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/Lux.png" class="img-thumbnail"
+                    alt="Sample post image">
+                  <a>
+                    <div class="mask rgba-white-slight"></div>
+                  </a>
+                </div>
+              </div>
+              <!--Grid column-->
+              <div class="col-lg-8 col-md-12">
+                <blockquote class="blockquote bq-primary">
+                  <h3 class="h3">MOST ONE</h3>
+                  <h6 class="h6-responsive">최근 n 경기</h6>
+                  <h6 class="h6-responsive">oo으로 승리</h6>
+                  <h6 class="h6-responsive"><strong>
+                      <div style="float:left;">K/D/A</div>
+                      <div style="float:right;">0/0/0</div>
+                    </strong></h6>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col">
+            <canvas id="lineChart"></canvas>
+          </div>
+        </div>
+      </div>
 
-    </div>
-  </main>
-  <!--Main layout-->
+    </section>
 
-  <!--Footer-->
-  <footer class="page-footer text-center font-small mdb-color darken-2 mt-4 wow fadeIn">
+    {% from 'game_list.html' import render_gamelist %}
+    {{ render_gamelist(game_time, game_summonerName) }}
 
-  
-    <hr class="my-4">
+</main>
+<!--Main layout-->
 
-    <!-- Social icons -->
-    <div class="pb-4">
-      
-      <a href="https://github.com/Yeowoolee" target="_blank">
-        <i class="fab fa-github mr-3"></i>
-      </a>
-
-      
-    </div>
-    <!-- Social icons -->
-
-    <!--Copyright-->
-    <div class="footer-copyright py-3">
-      © 2019 Copyright:
-      <a href="https://github.com/Yeowoolee" target="_blank"> JinhoLee </a>
-    </div>
-    <!--/.Copyright-->
-
-  </footer>
-  <!--/.Footer-->
-
-  <!-- SCRIPTS -->
-  <!-- JQuery -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/mdb.min.js') }}"></script>
-  <!-- Initializations -->
-  <script>
+{% block script %}
+<script>
   //line
-var ctxL = document.getElementById("lineChart").getContext('2d');
-var myLineChart = new Chart(ctxL, {
-type: 'line',
-data: {
-labels: ["7 게임 전", "6 게임 전", "5 게임 전", "4 게임 전", "3 게임 전", "2 게임 전", "최근 게임"],
-datasets: [{
-label: "K/A",
-data: [65, 59, 80, 81, 56, 55, 40],
-backgroundColor: [
-'rgba(0, 137, 132, .2)',
-],
-borderColor: [
-'rgba(0, 10, 130, .7)',
-],
-borderWidth: 2
-},
-{
-label: "D",
-data: [28, 48, 40, 19, 86, 27, 90],
+  var ctxL = document.getElementById("lineChart").getContext('2d');
+  var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+      labels: ["7 게임 전", "6 게임 전", "5 게임 전", "4 게임 전", "3 게임 전", "2 게임 전", "최근 게임"],
+      datasets: [{
+        label: "K/A",
+        data: [65, 59, 80, 81, 56, 55, 40],
+        backgroundColor: [
+          'rgba(0, 137, 132, .2)',
+        ],
+        borderColor: [
+          'rgba(0, 10, 130, .7)',
+        ],
+        borderWidth: 2
+      },
+      {
+        label: "D",
+        data: [28, 48, 40, 19, 86, 27, 90],
 
-backgroundColor: [
-'rgba(105, 0, 132, .2)',
-],
-borderColor: [
-'rgba(200, 99, 132, .7)',
-],
-borderWidth: 2
-}
-]
-},
-options: {
-responsive: true
-}
-});
-  </script>
-</body>
+        backgroundColor: [
+          'rgba(105, 0, 132, .2)',
+        ],
+        borderColor: [
+          'rgba(200, 99, 132, .7)',
+        ],
+        borderWidth: 2
+      }
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>
+{% endblock %}
 
-<!-- 로그인 모달 -->
-{% from 'login_modal.html' import render_login %}
-    {{ render_login() }}
-
-</html>
+{% endblock %}

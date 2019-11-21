@@ -1,153 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>WGM - 우리 정글 뭐함?</title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <!-- Bootstrap core CSS -->
-  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="{{ url_for('static', filename='css/mdb.min.css') }}" rel="stylesheet">
-  <!-- Your custom styles (optional) -->
-  <link href="{{ url_for('static', filename='css/style.min.css') }}" rel="stylesheet">
+{% block content %}
+<main class="mt-5 pt-5">
+  <div class="container">
 
-</head>
+    <section class="card wow fadeIn"
+      style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
 
-<body>
-  <!--Main Navigation-->
-  <header>
 
-    <!-- Navbar -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
-      <div class="container">
+      <div class="card-body text-white text-center py-5 px-5 my-5">
 
-        <!-- Brand -->
-        <a class="navbar-brand waves-effect" href="">
-          <img src="/static/img/WGMimgresize.png" alt=""><strong class="blue-text">WGM.GG</strong>
-        </a>
-       
-        
-        <!-- Collapse -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <h1 class="mb-4">
+          <strong>소환사 정보 검색</strong>
+        </h1>
+        <p>
+          <strong>소환사 정보를 검색해보세요!</strong>
+        </p>
+        <p class="mb-4">
+          <strong>우정머는 전적 분석을 통해 소환사님의 실력 향상에 도움을 드립니다. </strong>
+        </p>
+        <form action="/application">
+          <input type="text" name="name" />
+          <input class="btn btn-outline-white btn-lg" type="submit" value="검색" />
+        </form>
+      </div>
 
-        <!-- Links -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    </section>
 
-          <!-- Left -->
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-        
-          </ul>
-          <!-- Right -->
-          <ul class="navbar-nav nav-flex-icons">
-            
-            <li class="nav-item">
-                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalLRForm">로그인</button>
-            </li>
-          </ul>
-          
+    <!-- Section: Team v.3 -->
+    <hr class="my-5">
+
+    <!--Section: Magazine v.1-->
+    <section id="magazine" class="wow fadeIn">
+
+      <!--Section heading-->
+      <h2 class="h3 text-center my-5 font-weight-bold">라인 별 챔피언 추천</h2>
+
+      <div class="h1 text-center my-5 font-weight-bold">
+        <button data-toggle="modal" data-target="#Top_modal" type="button"
+          class="btn btn-outline-primary waves-effect">탑</button>
+        <button data-toggle="modal" data-target="#Mid_modal" type="button"
+          class="btn btn-outline-primary waves-effect">미드</button>
+        <button data-toggle="modal" data-target="#Jungle_modal" type="button"
+          class="btn btn-outline-primary waves-effect">정글</button>
+        <button data-toggle="modal" data-target="#AD_modal" type="button"
+          class="btn btn-outline-primary waves-effect">원딜</button>
+        <button data-toggle="modal" data-target="#Support_modal" type="button"
+          class="btn btn-outline-primary waves-effect">서포터</button>
+      </div>
+
+
+    </section>
+    <!--/Section: Magazine v.1-->
+    <hr>
+
+
+    <section class="team-section my-5">
+      <h2 class="h3 text-center my-5 font-weight-bold">추천 영상</h2>
+
+      <!--Grid row-->
+      <div class="row text-left">
+
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12">
+          <div style="position: relative; height:0; padding-bottom: 56.25%;">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/LQ22nQLi25I" frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+              style="position: absolute; width:100%; height:100%;"></iframe>
+          </div>
+
+        </div>
+
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12">
+
+          <div style="position: relative; height:0; padding-bottom: 56.25%;">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/WoKShRP4_iM" frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+              style="position: absolute; width:100%; height:100%;"></iframe>
+          </div>
         </div>
 
       </div>
-    </nav>
-    <!-- Navbar -->
 
-  </header>
-  <!--Main Navigation-->
-  <!--Main layout-->
-  <main class="mt-5 pt-5">
-    <div class="container">
+    </section>
 
-<section class="card wow fadeIn" style="background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);">
 
-        
-        <div class="card-body text-white text-center py-5 px-5 my-5">
-
-          <h1 class="mb-4">
-            <strong>소환사 정보 검색</strong>
-          </h1>
-          <p>
-            <strong>소환사 정보를 검색해보세요!</strong>
-          </p>
-          <p class="mb-4">
-            <strong>우정머는 전적 분석을 통해 소환사님의 실력 향상에 도움을 드립니다. </strong>
-          </p>
-          <form action="/application">
-            <input type="text" name="name"/>
-            <input class="btn btn-outline-white btn-lg" type="submit" value="검색"/>
-        </form>
-        </div>
-        
-      </section>
-
-<!-- Section: Team v.3 -->
-<hr class="my-5">
-
-<!--Section: Magazine v.1-->
-<section id = "magazine" class="wow fadeIn">
-
-  <!--Section heading-->
-  <h2 class="h3 text-center my-5 font-weight-bold" >라인 별 챔피언 추천</h2>
-  
-  <div class="h1 text-center my-5 font-weight-bold"> 
-  <button data-toggle="modal" data-target="#Top_modal" type="button" class="btn btn-outline-primary waves-effect">탑</button>
-  <button data-toggle="modal" data-target="#Mid_modal" type="button" class="btn btn-outline-primary waves-effect">미드</button>
-  <button data-toggle="modal" data-target="#Jungle_modal" type="button" class="btn btn-outline-primary waves-effect">정글</button>
-  <button data-toggle="modal" data-target="#AD_modal" type="button" class="btn btn-outline-primary waves-effect">원딜</button>
-  <button data-toggle="modal" data-target="#Support_modal" type="button" class="btn btn-outline-primary waves-effect">서포터</button>
   </div>
-  
-  
-</section>
-<!--/Section: Magazine v.1-->
-<hr>
-
-</div>
 </main>
-<!--Main layout-->
-
-  <!-- SCRIPTS -->
-  <!-- JQuery -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
-  <!-- Bootstrap tooltips -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
-  <!-- Bootstrap core JavaScript -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-  <!-- MDB core JavaScript -->
-  <script type="text/javascript" src="{{ url_for('static', filename='js/mdb.min.js') }}"></script>
-  <!-- Initializations -->
- 
-</body>
-<!-- 로그인 모달 -->
-{% from 'login_modal.html' import render_login %}
-    {{ render_login() }}
 
 <!-- 탑 모달 -->
 {% from 'Top_modal.html' import render_Top_modal %}
-    {{ render_Top_modal(Top_champ_name, Top_champ_pick_per) }}
+{{ render_Top_modal(Top_champ_name, Top_champ_pick_per) }}
 <!-- 미드 모달 -->
 {% from 'Mid_modal.html' import render_Mid_modal %}
-  {{ render_Mid_modal(Mid_champ_name, Mid_champ_pick_per) }}
+{{ render_Mid_modal(Mid_champ_name, Mid_champ_pick_per) }}
 <!-- 정글 모달 -->
 {% from 'Jungle_modal.html' import render_Jungle_modal %}
-    {{ render_Jungle_modal(Jungle_champ_name, Jungle_champ_pick_per) }}
+{{ render_Jungle_modal(Jungle_champ_name, Jungle_champ_pick_per) }}
 <!-- 원딜 모달 -->
 {% from 'AD_modal.html' import render_Ad_modal %}
-    {{ render_Ad_modal(Ad_champ_name, Ad_champ_pick_per) }}    
+{{ render_Ad_modal(Ad_champ_name, Ad_champ_pick_per) }}
 <!--  서포터 모달 -->
 {% from 'Support_modal.html' import render_Support_modal %}
-    {{ render_Support_modal(Support_champ_name, Support_champ_pick_per) }}
+{{ render_Support_modal(Support_champ_name, Support_champ_pick_per) }}
 
-
-
-</html>
+{% endblock %}

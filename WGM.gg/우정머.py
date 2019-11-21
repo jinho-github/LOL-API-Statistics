@@ -67,58 +67,36 @@ def data():
     res_GameID = requests.get(url=url_GameID, headers=headers)
     Matches = res_GameID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
     
-    def get_matches_info(Match):
-        res=[
-            Match.get('gameId')
-        ]
-        return res
+    Game_IDs = []  
+    for m in range(0, 20):
+        Game_IDs.append(Matches[m].get('gameId'))
 
-    Game_ID = []    
-
-    for Match in Matches:
-        Game_ID.append(get_matches_info(Match))
-
-    Game_ID = sum(Game_ID, [])
-    #게임 ID 출력 확인(100개)
-    '''
-    for i in Game_ID:
-        print(i)
-    '''
     
-    #게임 데이터 가져오려고 노력 중(20개씩)
-    ##단일 데이터 : MatchDuration(게임 플레이 시간)
-    ##리스트 안 딕셔너리 : participantIdentities
-    i = 0
-    game_Duration = []
-    game_player = []
-    while True:
-        url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID[i])
+
+    game_time = []
+    game_summonerName = []
+    for Game_ID in Game_IDs:
+        url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
-        
-        #단일 데이터
+        #플레이시간
         duration = res_GameData.json()['gameDuration']
-        game_Duration.append(duration)
+        game_time.append(duration)
+        #최근 20회 데이터
+        game_20 = res_GameData.json()['participantIdentities']
+        for i in range(0, 10):  
+            game_player = game_20[i].get('player') 
+            game_summonerName.append(game_player.get('summonerName'))
+    
+    
+        
+    """
+    {'platformId': 'KR', 'accountId': 'vx5Z9RLuHQBf5dOgVUcJ9QXND_aAhddi4M90IvzrVfybvy4',
+    'summonerName': 'Harbins', 'summonerId': 'J47ZAt-8gqA3lBYULDzbdWF8MUXraKsJBHe_bZ-G8505m3E',
+    'currentPlatformId': 'KR', 'currentAccountId': 'vx5Z9RLuHQBf5dOgVUcJ9QXND_aAhddi4M90IvzrVfybvy4',
+    'matchHistoryUri': '/v1/stats/player_history/KR/204321787', 'profileIcon': 1297}
+    """
 
-        #다중 데이터
-        part = res_GameData.json()['participantIdentities']        
-        game_player.append(part)
-
-        i += 1
-        if i == 20 :
-            break
-
-    #duration 출력 확인(20개)
-    '''
-    for j in game_Duration:
-        print(j)
-    '''    
-    #participantIdentities 출력 확인(20개)
-    '''
-    for j in part :
-            print(j)
-    '''
-
-    return render_template('search.html', results01=game_Duration, results02=game_player)
+    return render_template('search.html', game_time=game_time , game_summonerName=game_summonerName)
     #return render_template('search.html' , results=Game_ID, length=length)
 if __name__ == '__main__':
     app.run(debug=True)
