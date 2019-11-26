@@ -1,6 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+
+{% block css %}
+<style>
+body {
+    padding-top: 2rem;
+}
+
+@media (min-width: 576px) {
+    .card-group.card-group-scroll {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .card-group.card-group-scroll > .card {
+        flex-basis: 35%;
+    }
+}
+</style>
+{% endblock %}
+
+
 <main class="mt-5 pt-5">
   <div class="container">
 
@@ -54,38 +76,25 @@
     <!--/Section: Magazine v.1-->
     <hr>
 
-
-    <section class="team-section my-5">
+  <section>
       <h2 class="h3 text-center my-5 font-weight-bold">추천 영상</h2>
-
-      <!--Grid row-->
-      <div class="row text-left">
-
-        <!--Grid column-->
-        <div class="col-lg-6 col-md-12">
-          <div style="position: relative; height:0; padding-bottom: 56.25%;">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/LQ22nQLi25I" frameborder="0"
+      <div class="container">
+        <div class="card-group card-group-scroll">
+          {% for i in range(10) %}
+          <div class="card">
+            <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{video_id_list[i]}}" frameborder="0"
               allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-              style="position: absolute; width:100%; height:100%;"></iframe>
-          </div>
-
+              ></iframe>
+            <div class="card-body">
+                <h5 class="card-title">서포터에게 추천</h5>
+                <p class="card-text">~~에 도움이 되었습니다..</p>
+            </div>
         </div>
-
-        <!--Grid column-->
-        <div class="col-lg-6 col-md-12">
-
-          <div style="position: relative; height:0; padding-bottom: 56.25%;">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/WoKShRP4_iM" frameborder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-              style="position: absolute; width:100%; height:100%;"></iframe>
-          </div>
+        {% endfor %}
         </div>
+    </div>
 
-      </div>
-
-    </section>
-
-
+  </section>
   </div>
 </main>
 
@@ -106,3 +115,5 @@
 {{ render_Support_modal(Support_champ_name, Support_champ_pick_per) }}
 
 {% endblock %}
+
+

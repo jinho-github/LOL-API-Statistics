@@ -1,33 +1,39 @@
 from flask import Flask,render_template,request, url_for, session, redirect, flash
-#import bcrypt
 from flask_bcrypt import Bcrypt
 import os
 from flask_pymongo import PyMongo
 import requests
 import urllib.parse
 #끌어오기 
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
-import re
+import opgg_crawling
+
+from time import sleep #받아오기 속도조절
+
+
 apikey = os.environ['LOL_API_KEY']
-#mongokey = os.environ['MONGO_KEY']
 
 app = Flask(__name__)
 #DB와 비밀번호는 환경변수에서 가져온다.
 app.config['MONGO_URI'] = os.environ['MONGO_KEY']
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
-#client = pymongo.MongoClient(mongokey)
-#db = client.get_database('WGM_DB')
 
 
+"""
+Rate Limits
+20 requests every 1 seconds
+100 requests every 2 minutes
+"""
 
 @app.route('/')
 def index():
-    myurl = "https://www.op.gg/champion/statistics"
-    url = urlopen(myurl)
-    soup = BeautifulSoup(url,"lxml")
-    
+    #디비에서 video_id 가져오기
+    myvideo = mongo.db.video_List 
+    get_video_ids = myvideo.find().sort([['_id', -1]]).limit(10)
+    video_id_list = []
+    for get_video_id in get_video_ids:
+        video_id_list.append(get_video_id['video_id'])
+
     Top_champ_name = []
     Top_champ_pick_per = []
     Jungle_champ_name = []
@@ -38,104 +44,24 @@ def index():
     Ad_champ_pick_per = []
     Support_champ_name = []
     Support_champ_pick_per = []
+
+    opgg_crawling.opgg(Top_champ_name,
+    Top_champ_pick_per,
+    Jungle_champ_name,
+    Jungle_champ_pick_per,
+    Mid_champ_name,
+    Mid_champ_pick_per,
+    Ad_champ_name,
+    Ad_champ_pick_per,
+    Support_champ_name,
+    Support_champ_pick_per)
     
-    #탑
-    Top_champion = soup.find(name='tbody',attrs={'class':'tabItem champion-trend-tier-TOP'})
-    for link1 in Top_champion.select('tr'):
-        try:
-            #챔피언 이름     
-            td_tag = link1.select('td')[3]
-            a_tag = td_tag.select('a')[0]
-            get_name = a_tag.select('div')[0]
-            get_name = get_name.text
-            get_name = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', get_name) #특수한문자제거
-            get_name = re.sub(" ", "", get_name) #공백제거
-            Top_champ_name.append(get_name)
-            #승률
-            td_tag = link1.select('td')[4]
-            Top_champ_pick_per.append(td_tag.text)
-        except:
-            pass
-    
-    #정글
-    Jungle_champion = soup.find(name='tbody',attrs={'class':'tabItem champion-trend-tier-JUNGLE'})
-    for link2 in Jungle_champion.select('tr'):
-        try:
-            #챔피언 이름     
-            td_tag = link2.select('td')[3]
-            a_tag = td_tag.select('a')[0]
-            get_name = a_tag.select('div')[0]
-            get_name = get_name.text
-            get_name = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', get_name) #특수한문자제거
-            get_name = re.sub(" ", "", get_name) #공백제거
-            Jungle_champ_name.append(get_name)
-            #승률
-            td_tag = link2.select('td')[4]
-            Jungle_champ_pick_per.append(td_tag.text)
-        except:
-            pass
-
-    #미드
-    Mid_champion = soup.find(name='tbody',attrs={'tabItem champion-trend-tier-MID'})
-    for link3 in Mid_champion.select('tr'):
-        try:
-            #챔피언 이름     
-            td_tag = link3.select('td')[3]
-            a_tag = td_tag.select('a')[0]
-            get_name = a_tag.select('div')[0]
-            get_name = get_name.text
-            get_name = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', get_name) #특수한문자제거
-            get_name = re.sub(" ", "", get_name) #공백제거
-            Mid_champ_name.append(get_name)
-            #승률
-            td_tag = link3.select('td')[4]
-            Mid_champ_pick_per.append(td_tag.text)
-        except:
-            pass
-
-    #바텀
-    Ad_champion = soup.find(name='tbody',attrs={'tabItem champion-trend-tier-ADC'})
-    for link4 in Ad_champion.select('tr'):
-        try:
-            #챔피언 이름     
-            td_tag = link4.select('td')[3]
-            a_tag = td_tag.select('a')[0]
-            get_name = a_tag.select('div')[0]
-            get_name = get_name.text
-            get_name = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', get_name) #특수한문자제거
-            get_name = re.sub(" ", "", get_name) #공백제거
-            get_name = get_name.replace('KaiSa','Kaisa')#이미지 오류로 인해 이름 변경
-            Ad_champ_name.append(get_name)
-            #승률
-            td_tag = link4.select('td')[4]
-            Ad_champ_pick_per.append(td_tag.text)
-        except:
-            pass
-
-    #서포터
-    Support_champion = soup.find(name='tbody',attrs={'class':'tabItem champion-trend-tier-SUPPORT'})
-    for link5 in Support_champion.select('tr'):
-        try:
-            #챔피언 이름     
-            td_tag = link5.select('td')[3]
-            a_tag = td_tag.select('a')[0]
-            get_name = a_tag.select('div')[0]
-            get_name = get_name.text
-            get_name = re.sub('[-=+,#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]', '', get_name) #특수한문자제거
-            get_name = re.sub(" ", "", get_name) #공백제거
-            Support_champ_name.append(get_name)
-            
-            #승률
-            td_tag = link5.select('td')[4]
-            Support_champ_pick_per.append(td_tag.text)
-        except:
-            pass
-
     return render_template('index.html',Top_champ_name = Top_champ_name, Top_champ_pick_per = Top_champ_pick_per,
                                         Jungle_champ_name = Jungle_champ_name, Jungle_champ_pick_per = Jungle_champ_pick_per,
                                         Mid_champ_name = Mid_champ_name, Mid_champ_pick_per = Mid_champ_pick_per, 
                                         Ad_champ_name = Ad_champ_name, Ad_champ_pick_per = Ad_champ_pick_per, 
-                                        Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per)
+                                        Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per,
+                                        video_id_list = video_id_list)
 @app.route('/application')
 def search():
     sum_name = request.args.get('name')
@@ -170,17 +96,21 @@ def search():
 
     game_time = []
     game_summonerName = []
+    sleep(2) #20개 불러오기전에 쉬기
+    #테스트하다 가끔씩 api락 걸림
     for Game_ID in Game_IDs:
-        url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
+        url_GameData = "https://ㄴkr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
         #플레이시간
         duration = res_GameData.json()['gameDuration']
         game_time.append(duration)
         #최근 20회 데이터
         game_20 = res_GameData.json()['participantIdentities']
-        for i in range(0, 10):  
+        temp = []
+        for i in range(0, 10):
             game_player = game_20[i].get('player') 
-            game_summonerName.append(game_player.get('summonerName'))
+            temp.append(game_player.get('summonerName'))
+        game_summonerName.append(temp)
 
     def get_league_info(league_dict):
         res = [
@@ -222,7 +152,6 @@ def login():
         myuser = mongo.db.user_Info
         login_user = myuser.find_one({'email' : request.form['login_email']})
         if login_user:
-            #pw_hash = bcrypt.generate_password_hash(request.form['login_pw'])
             pw_check = bcrypt.check_password_hash(login_user['password'], request.form['login_pw'])
             if pw_check is True:
                 #session['username'] == request.form['login_email']

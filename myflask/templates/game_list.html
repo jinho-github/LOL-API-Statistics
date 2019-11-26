@@ -7,6 +7,13 @@
         <span class="badge badge-primary badge-pill">잘한점</span>
         <span class="badge badge-danger badge-pill">못한점</span>
         게임에 참여한 플레이어
+        
+        {% for j in range(10) %}
+            {{game_summonerName[i][j]}}
+     
+        {% endfor %}
+        
+        
     </li>
     {% endfor %}
 
