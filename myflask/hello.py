@@ -27,13 +27,14 @@ Rate Limits
 
 @app.route('/')
 def index():
+    '''
     #디비에서 video_id 가져오기
     myvideo = mongo.db.video_List 
     get_video_ids = myvideo.find().sort([['_id', -1]]).limit(10)
     video_id_list = []
     for get_video_id in get_video_ids:
         video_id_list.append(get_video_id['video_id'])
-
+    '''
     Top_champ_name = []
     Top_champ_pick_per = []
     Jungle_champ_name = []
@@ -60,8 +61,8 @@ def index():
                                         Jungle_champ_name = Jungle_champ_name, Jungle_champ_pick_per = Jungle_champ_pick_per,
                                         Mid_champ_name = Mid_champ_name, Mid_champ_pick_per = Mid_champ_pick_per, 
                                         Ad_champ_name = Ad_champ_name, Ad_champ_pick_per = Ad_champ_pick_per, 
-                                        Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per,
-                                        video_id_list = video_id_list)
+                                        Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per)
+                                      
 @app.route('/application')
 def search():
     sum_name = request.args.get('name')
@@ -99,7 +100,7 @@ def search():
     sleep(2) #20개 불러오기전에 쉬기
     #테스트하다 가끔씩 api락 걸림
     for Game_ID in Game_IDs:
-        url_GameData = "https://ㄴkr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
+        url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
         #플레이시간
         duration = res_GameData.json()['gameDuration']

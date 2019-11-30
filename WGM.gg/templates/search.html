@@ -1,13 +1,29 @@
 <!-- search.html -->
 <!DOCTYPE html>
 <head>
-    <title>전적검색결과</title>
+    <title>전적검색결과</title> 
 </head>
 <body>
-    최근 게임 플레이 시간 (단위 : 초) : {{game_time}} </br>
+    최근 게임 플레이 시간 (단위 : 분) : {{game_time}} </br>
     
     최근 게임 정보(20개) : {{game_summonerName}}
     
+    <script>
+         var all_name = '{{game_summonerName}}';
+         var all_name = all_name.replace(/[]/gi,""); //특수문자제거...제거실패... 
+         var game_name = all_name.split(','); //쉼표를 기준으로 이름 나누기
+         for (var i in game_name){
+            document.write( '<p>' + game_name[i] + '</p>' );
+         }
+        // var game_name = new Array();
+        // for ( var i = 0; i < 200; i++ ) {
+        //     var all_name = '{{game_summonerName}}';
+        //     var all_name = all_name.replace(/[]'/gi,"");
+        //     var game_name = all_name.split(','); //쉼표를 기준으로 이름 나누기
+        //     //game_name[i] = '{{game_summonerName}}';
+        //     document.write( '<p>' + game_name[i] + '</p>' );
+        // }
+    </script>
 
 
 </body>

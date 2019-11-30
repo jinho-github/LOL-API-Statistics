@@ -63,7 +63,7 @@ def data():
     res_SummonerName = requests.get(url=url_SummonerName, headers=headers)
     account_Id = res_SummonerName.json()['accountId'] #account id 가져오기
 
-    url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}".format(account_Id) #{encryptedAccountId} = account_ID
+    url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}?queue=420".format(account_Id) #{encryptedAccountId} = account_ID, 솔랭은 queuetype = 420
     res_GameID = requests.get(url=url_GameID, headers=headers)
     Matches = res_GameID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
     
@@ -79,14 +79,16 @@ def data():
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
         #플레이시간
-        duration = res_GameData.json()['gameDuration']
+        duration = res_GameData.json()['gameDuration']//60
         game_time.append(duration)
-        #최근 20회 데이터
+        #최근 20회 데이터 : 블루 5명이 항상 먼저, 그다음 레드 5명
         game_20 = res_GameData.json()['participantIdentities']
         for i in range(0, 10):  
             game_player = game_20[i].get('player') 
             game_summonerName.append(game_player.get('summonerName'))
-    
+
+            
+        
     
         
     """
