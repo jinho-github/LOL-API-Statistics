@@ -1,3 +1,4 @@
+
 # python code
 from flask import Flask,render_template,request
 import os
@@ -86,11 +87,9 @@ def data():
         for i in range(0, 10):  
             game_player = game_20[i].get('player') 
             game_summonerName.append(game_player.get('summonerName'))
-
+          
+        
             
-        
-    
-        
     """
     {'platformId': 'KR', 'accountId': 'vx5Z9RLuHQBf5dOgVUcJ9QXND_aAhddi4M90IvzrVfybvy4',
     'summonerName': 'Harbins', 'summonerId': 'J47ZAt-8gqA3lBYULDzbdWF8MUXraKsJBHe_bZ-G8505m3E',
