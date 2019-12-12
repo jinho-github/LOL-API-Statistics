@@ -28,8 +28,6 @@ Rate Limits
 
 @app.route('/')
 def index():
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     tip_List = mongo.db.tip_List
     get_tips = tip_List.find().sort([['_id', -1]]).limit(10)
@@ -43,21 +41,6 @@ def index():
         temp.append(get_tip['name'])
         tip_lists.append(temp)
 
-=======
-=======
->>>>>>> 8c8bc26ea6e88d76dd79e36a8b9063ee96620a1e
-    '''
-    #디비에서 video_id 가져오기
-    myvideo = mongo.db.video_List 
-    get_video_ids = myvideo.find().sort([['_id', -1]]).limit(10)
-    video_id_list = []
-    for get_video_id in get_video_ids:
-        video_id_list.append(get_video_id['video_id'])
-    '''
-<<<<<<< HEAD
->>>>>>> 8c8bc26ea6e88d76dd79e36a8b9063ee96620a1e
-=======
->>>>>>> 8c8bc26ea6e88d76dd79e36a8b9063ee96620a1e
     Top_champ_name = []
     Top_champ_pick_per = []
     Jungle_champ_name = []
@@ -84,18 +67,9 @@ def index():
                                         Jungle_champ_name = Jungle_champ_name, Jungle_champ_pick_per = Jungle_champ_pick_per,
                                         Mid_champ_name = Mid_champ_name, Mid_champ_pick_per = Mid_champ_pick_per, 
                                         Ad_champ_name = Ad_champ_name, Ad_champ_pick_per = Ad_champ_pick_per, 
-<<<<<<< HEAD
-<<<<<<< HEAD
                                         Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per,
                                         tip_lists = tip_lists)
-=======
-                                        Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per)
-                                      
->>>>>>> 8c8bc26ea6e88d76dd79e36a8b9063ee96620a1e
-=======
-                                        Support_champ_name = Support_champ_name, Support_champ_pick_per = Support_champ_pick_per)
-                                      
->>>>>>> 8c8bc26ea6e88d76dd79e36a8b9063ee96620a1e
+
 @app.route('/application')
 def search():
     sum_name = request.args.get('name')
