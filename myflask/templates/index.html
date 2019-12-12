@@ -49,6 +49,7 @@ body {
 
     </section>
 
+
     <!-- Section: Team v.3 -->
     <hr class="my-5">
 
@@ -76,6 +77,31 @@ body {
     <!--/Section: Magazine v.1-->
     <hr>
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+  <section>
+      <h2 class="h3 text-center my-5 font-weight-bold">추천 영상</h2>
+      <div class="container">
+        <div class="card-group card-group-scroll">
+          {% for i in range(10) %}
+          <div class="card">
+            <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{ tip_lists[i][1] }}" frameborder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+              ></iframe>
+            <div class="card-body">
+                <h5 class="card-title">{{ tip_lists[i][0] }}에게 추천 <div class="text-right">{{ tip_lists[i][3] }}</div></h5>
+                <p class="card-text">{{ tip_lists[i][2] }}</p>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+
+  </section>
+=======
+>>>>>>> 8c8bc26ea6e88d76dd79e36a8b9063ee96620a1e
+=======
+>>>>>>> 8c8bc26ea6e88d76dd79e36a8b9063ee96620a1e
   </div>
 </main>
 

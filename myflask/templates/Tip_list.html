@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<main class="mt-5 pt-5">
+    
+        <div class="container">
+      
+          
+                <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">라인</th>
+                     
+                            <th scope="col">제목</th>
+                            
+                            <th scope="col">작성자</th>
+                         
+                          </tr>
+                        </thead>
+                        <tbody>
+                    
+                        {% for i in range(0, tip_list_size) %}
+                      <tr data-toggle="modal" data-target="#Top_modal{{ tip_list_size-i }}">
+                          <th scope="row">{{ tip_list_size-i }}</th>
+                          <td>{{ tip_lists[i][0] }} 팁</td>
+                      
+                          <td>{{ tip_lists[i][2] }}</td>
+                     
+                          <div class="text-right">
+                              <td>{{ tip_lists[i][4] }}</td>
+                          </div>
+                         
+                        </tr>
+                        {% endfor %}
+                    
+                        </tbody>
+                    </table>
+                    <div class="text-right">
+                    <button class="btn btn-default" data-toggle="modal" data-target="#writing_modal">글쓰기</button>
+                </div>
+            </div>
+
+      
+        </main>
+
+
+
+<!-- 글쓰기 모달 -->
+{% from 'writing_modal.html' import render_writing_modal %}
+{{ render_writing_modal() }}
+<!-- 내용보기 모달 -->
+{% from 'view_context.html' import render_Top_modal %}
+{{ render_Top_modal(tip_list_size, tip_lists) }}
+{% endblock %}

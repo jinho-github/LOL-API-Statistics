@@ -50,15 +50,73 @@
             </li>
         
           </ul>
+
+ 
           <!-- Right -->
           <ul class="navbar-nav nav-flex-icons">
+            {% if session['email'] %}
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+            <li class="nav-item">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <i class="fas fa-info-circle"></i>
+              {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </li>   
+          {% endif %}
+          {% endwith %} 
             
+
+
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary" data-toggle="modal" onclick="location.href='/Tip_list'">나만의 팁</button>
+          </li>
+          
+          <li class="nav-item">
+            <button type="button" class="btn btn-primary" data-toggle="modal" onclick="location.href='/matching'" >유저매칭</button>
+          </li>
+  
+            <li class="nav-item">
+              <button type="button" class="btn btn-info" data-toggle="modal" onclick="location.href='/logout'">로그아웃</button>
+            </li>
+       
+            {% else %}
+
+
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+            <li class="nav-item">
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <i class="fas fa-info-circle"></i>
+              {% for message in messages %}
+              {{ message }}
+            {% endfor %}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </li>   
+          {% endif %}
+          {% endwith %} 
+      
+          
+
             <li class="nav-item">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalLoginForm">로그인</button>
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalRegisterForm">회원가입</button>
             </li>
+
+          {% endif %}
+
+
           </ul>
           
         </div>

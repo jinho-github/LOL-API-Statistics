@@ -1,0 +1,51 @@
+{% macro render_Top_modal(tip_list_size, tip_lists) %}
+
+{% for i in range(0, tip_list_size) %}
+
+<div class="modal fade Top" id="Top_modal{{ tip_list_size-i }}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height modal-Top" role="document">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tip_lists[i][2] }}</h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>{{ tip_lists[i][0] }}에게 추천하는 팁 입니다.</strong>
+                </p>
+                <hr>
+                <p><strong>유튜브 영상</strong></p>
+                <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{ tip_lists[i][1] }}" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                ></iframe>
+                <td></td>
+                <hr>
+                <p><strong>내용</strong></p>
+
+
+
+                <td>{{ tip_lists[i][3] }}</td>
+
+
+                <div class="text-right">
+                    <td>작성자 : {{ tip_lists[i][4] }}</td>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endmacro %}
