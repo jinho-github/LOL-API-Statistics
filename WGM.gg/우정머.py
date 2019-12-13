@@ -72,32 +72,65 @@ def data():
     for m in range(0, 20):
         Game_IDs.append(Matches[m].get('gameId'))
 
-    
-
     game_time = []
     game_summonerName = []
+    b_win= []
+    b_towerKills = []
+    b_inhibitorKills = []
+    b_baronKills = []
+    b_riftHeraldKills = []
+
+    r_win = []
+    r_towerKills = []
+    r_inhibitorKills = []
+    r_baronKills = []
+    r_riftHeraldKills = []
+
     for Game_ID in Game_IDs:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
+        
         #플레이시간
         duration = res_GameData.json()['gameDuration']//60
+                                  
+        #개인 통계
+        participants = res_GameData.json()['participants']      
         game_time.append(duration)
+        print(type(game_time))
+        #팀정보
+        teams = res_GameData.json()['teams']
+        
+        blue = teams[0] 
+        red = teams[-1]
+          
+        #딕셔너리로 넘기는것 보다 그냥 변수하나하나쪼개서 주는게 편하낭..? 
+        if (blue['win']=='Win') :
+            b_win.append('승리')
+            r_win.append('패배')
+        else :
+            b_win.append('패배')
+            r_win.append('승리')
+                
+        b_towerKills.append(blue['towerKills'])#부순 포탑 갯수
+        b_inhibitorKills.append(blue['inhibitorKills'])#부순 억제기 갯수
+        b_baronKills.append(blue['baronKills'])#부순 포탑 갯수
+        b_riftHeraldKills.append(blue['riftHeraldKills'])#부순 포탑 갯수
+                 
+        r_towerKills.append(red['towerKills'])
+        r_inhibitorKills.append(red['inhibitorKills'])
+        r_baronKills.append(red['baronKills'])
+        r_riftHeraldKills.append(red['riftHeraldKills'])
+        
+
         #최근 20회 데이터 : 블루 5명이 항상 먼저, 그다음 레드 5명
         game_20 = res_GameData.json()['participantIdentities']
         for i in range(0, 10):  
             game_player = game_20[i].get('player') 
-            game_summonerName.append(game_player.get('summonerName'))
-          
-        
-            
-    """
-    {'platformId': 'KR', 'accountId': 'vx5Z9RLuHQBf5dOgVUcJ9QXND_aAhddi4M90IvzrVfybvy4',
-    'summonerName': 'Harbins', 'summonerId': 'J47ZAt-8gqA3lBYULDzbdWF8MUXraKsJBHe_bZ-G8505m3E',
-    'currentPlatformId': 'KR', 'currentAccountId': 'vx5Z9RLuHQBf5dOgVUcJ9QXND_aAhddi4M90IvzrVfybvy4',
-    'matchHistoryUri': '/v1/stats/player_history/KR/204321787', 'profileIcon': 1297}
-    """
-
-    return render_template('search.html', game_time=game_time , game_summonerName=game_summonerName)
+            game_summonerName.append(game_player.get('summonerName'))      
+    
+    return render_template('search.html', game_time=game_time , game_summonerName=game_summonerName, 
+                            b_baronKills=b_baronKills, b_win=b_win, b_towerKills=b_towerKills, b_riftHeraldKills=b_riftHeraldKills, b_inhibitorKills=b_inhibitorKills,
+                            r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills )
     #return render_template('search.html' , results=Game_ID, length=length)
 if __name__ == '__main__':
     app.run(debug=True)
