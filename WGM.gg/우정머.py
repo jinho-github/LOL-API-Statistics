@@ -96,7 +96,19 @@ def data():
         #개인 통계
         participants = res_GameData.json()['participants']      
         game_time.append(duration)
-        print(type(game_time))
+        
+        player_1 = participants[0]
+        player_2 = participants[1]
+        player_3 = participants[2]
+        player_4 = participants[3]
+        player_5 = participants[4]
+        player_6 = participants[5]
+        player_7 = participants[6]
+        player_8 = participants[7]
+        player_9 = participants[8]
+        player_10= participants[9]
+        
+        print(player_3)
         #팀정보
         teams = res_GameData.json()['teams']
         
