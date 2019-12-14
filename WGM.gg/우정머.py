@@ -86,29 +86,33 @@ def data():
     r_baronKills = []
     r_riftHeraldKills = []
 
+    kill=[] #킬
+    death=[] #데스
+    assist=[] #어시
+    gold=[] #획득한 골드
+    totalDmg=[] #몬스터+게이머에게 가한 총 데미지
+    champDmg=[] #게이머에게만 가한 총 데미지
+    takenDmg=[] #받은 총 피해        
+    minion=[] #미니언 수
+    heal=[] #총 힐량
+    largekill=[] #최대 킬수(최대트리플킬 까지 했당! 최대 쿼드라했다! 이런거)
+    magicDmg=[] #마법공격력
+    psyDmg=[] #신체 공격력?
+    champlevel=[] #챔프 레벨
+        
+    visionScore=[] #시야점수
+    v_wardbuy=[] #산 제어와드 갯수
+    wardsplaced=[] #설치한 와드
+    wardskill=[] #파괴한 와드
+
     for Game_ID in Game_IDs:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
         
         #플레이시간
-        duration = res_GameData.json()['gameDuration']//60
-                                  
-        #개인 통계
-        participants = res_GameData.json()['participants']      
+        duration = res_GameData.json()['gameDuration']//60                              
         game_time.append(duration)
         
-        player_1 = participants[0]
-        player_2 = participants[1]
-        player_3 = participants[2]
-        player_4 = participants[3]
-        player_5 = participants[4]
-        player_6 = participants[5]
-        player_7 = participants[6]
-        player_8 = participants[7]
-        player_9 = participants[8]
-        player_10= participants[9]
-        
-        print(player_3)
         #팀정보
         teams = res_GameData.json()['teams']
         
@@ -133,16 +137,49 @@ def data():
         r_baronKills.append(red['baronKills'])
         r_riftHeraldKills.append(red['riftHeraldKills'])
         
-
+        participantId = []
         #최근 20회 데이터 : 블루 5명이 항상 먼저, 그다음 레드 5명
         game_20 = res_GameData.json()['participantIdentities']
         for i in range(0, 10):  
             game_player = game_20[i].get('player') 
-            game_summonerName.append(game_player.get('summonerName'))      
-    
+            name = game_player.get('summonerName')
+            game_summonerName.append(name)    
+            
+            #내 participantID 찾았다!
+            if(name == sum_name):
+                participantId.append(i+1)
+        
+        #개인 통계
+        stats=[]
+        participants = res_GameData.json()['participants']
+        for i in participantId:
+          stats.append(participants[i-1])
+        stats=stats[0]
+        my_stat=stats['stats']
+              
+        kill.append(my_stat['kills'])
+        death.append(my_stat['deaths'])
+        assist.append(my_stat['assists'])
+        gold.append(my_stat['goldEarned'])
+        totalDmg.append(my_stat['totalDamageDealt'])
+        champDmg.append(my_stat['totalDamageDealtToChampions'])
+        takenDmg.append(my_stat['totalDamageTaken'])
+        minion.append(my_stat['totalMinionsKilled'])
+        heal.append(my_stat['totalHeal'])
+        largekill.append(my_stat['largestMultiKill'])
+        magicDmg.append(my_stat['magicDamageDealtToChampions'])
+        psyDmg.append(my_stat['physicalDamageDealtToChampions'])
+        champlevel.append(my_stat['champLevel'])        
+        visionScore.append(my_stat['visionScore'])
+        v_wardbuy.append(my_stat['visionWardsBoughtInGame'])
+        wardsplaced.append(my_stat['wardsPlaced'])
+        wardskill.append(my_stat['wardsKilled'])
+
     return render_template('search.html', game_time=game_time , game_summonerName=game_summonerName, 
                             b_baronKills=b_baronKills, b_win=b_win, b_towerKills=b_towerKills, b_riftHeraldKills=b_riftHeraldKills, b_inhibitorKills=b_inhibitorKills,
-                            r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills )
+                            r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills,
+                            kill=kill, death=death, assist=assist, gold= gold, totalDmg=totalDmg, champDmg=champDmg, takenDmg=takenDmg, minion=minion, heal=heal,
+                            largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill )
     #return render_template('search.html' , results=Game_ID, length=length)
 if __name__ == '__main__':
     app.run(debug=True)
