@@ -105,6 +105,14 @@ def data():
     wardsplaced=[] #설치한 와드
     wardskill=[] #파괴한 와드
 
+    rune_1 =[] #룬1
+    rune_2=[] #룬2
+
+    champID=[] #챔프
+    
+    spell_1 =[] #스펠1
+    spell_2 =[] #스펠2
+
     for Game_ID in Game_IDs:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
@@ -155,6 +163,7 @@ def data():
         for i in participantId:
           stats.append(participants[i-1])
         stats=stats[0]
+
         my_stat=stats['stats']
               
         kill.append(my_stat['kills'])
@@ -174,12 +183,19 @@ def data():
         v_wardbuy.append(my_stat['visionWardsBoughtInGame'])
         wardsplaced.append(my_stat['wardsPlaced'])
         wardskill.append(my_stat['wardsKilled'])
+        rune_1.append(my_stat['perkPrimaryStyle'])
+        rune_2.append(my_stat['perkSubStyle'])
+
+        spell_1.append(stats['spell1Id'])
+        spell_2.append(stats['spell2Id'])
+        champID.append(stats['championId'])
 
     return render_template('search.html', game_time=game_time , game_summonerName=game_summonerName, 
                             b_baronKills=b_baronKills, b_win=b_win, b_towerKills=b_towerKills, b_riftHeraldKills=b_riftHeraldKills, b_inhibitorKills=b_inhibitorKills,
                             r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills,
                             kill=kill, death=death, assist=assist, gold= gold, totalDmg=totalDmg, champDmg=champDmg, takenDmg=takenDmg, minion=minion, heal=heal,
-                            largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill )
+                            largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill,
+                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champID=champID )
     #return render_template('search.html' , results=Game_ID, length=length)
 if __name__ == '__main__':
     app.run(debug=True)
