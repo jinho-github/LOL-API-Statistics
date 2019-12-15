@@ -4,6 +4,7 @@ from flask import Flask,render_template,request
 import os
 import requests
 from pprint import pprint as pp
+from collections import ChainMap
 
 app = Flask(__name__)
 
@@ -109,7 +110,7 @@ def data():
     rune_2=[] #룬2
 
     champID=[] #챔프
-    
+    champname=[] #챔프 이름
     spell_1 =[] #스펠1
     spell_2 =[] #스펠2
 
@@ -190,13 +191,29 @@ def data():
         spell_2.append(stats['spell2Id'])
         champID.append(stats['championId'])
 
+
+    static_data_url = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/ko_KR/champion.json'
+    data = requests.get(static_data_url).json()
+    data = data['data']    
+    data=list(data.values())
+      
+    for i in range(0,20):
+        id=int(champID[i])
+        for j in range(0,147):
+            d = data[j]  
+            key = int(d['key'])
+            if (id == key):
+                n = d['name']
+                champname.append(n)
+
+        
     return render_template('search.html', game_time=game_time , game_summonerName=game_summonerName, 
                             b_baronKills=b_baronKills, b_win=b_win, b_towerKills=b_towerKills, b_riftHeraldKills=b_riftHeraldKills, b_inhibitorKills=b_inhibitorKills,
                             r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills,
                             kill=kill, death=death, assist=assist, gold= gold, totalDmg=totalDmg, champDmg=champDmg, takenDmg=takenDmg, minion=minion, heal=heal,
                             largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill,
-                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champID=champID )
-    #return render_template('search.html' , results=Game_ID, length=length)
+                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname )
+   
 if __name__ == '__main__':
     app.run(debug=True)
     
