@@ -34,12 +34,16 @@
                                     src="https://mdbootstrap.com/img/Photos/Avatars/img (30).jpg"
                                     alt="Generic placeholder image" style="width: 100px;">
                                 <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                                    <h5 class="mt-0 font-weight-bold">내 아이디
+                                    {% if my_info_list is defined  %}
+                                    <h5 class="mt-0 font-weight-bold">{{ my_info_list[1] }}
                                     </h5>
-
-                                    <strong>주 라인 : </strong>
-                                    <strong>주 챔피언 : </strong>
+                                    <strong>주 라인 : {{ my_info_list[0] }}</strong><br>
+                                    <strong>주 챔피언 : {{ my_info_list[2] }}</strong><br>
                                     <strong>승률 : </strong>
+                                    {% else %}
+                                    내 정보가 등록되지 않았습니다. <br>
+                                    매칭 정보를 등록해주세요.
+                                    {% endif %}
                                 </div>
                             </div>
 
@@ -101,18 +105,18 @@
                         <div class="card-body">
 
                             <!-- Default form login -->
-                            <form>
+                            <form method=POST action="{{ url_for('matching_user_add') }}">
 
                                 <!-- Default input email -->
                                 <label for="defaultFormEmailEx" class="grey-text">LOL 아이디</label>
-                                <input type="email" id="defaultFormLoginEmailEx" class="form-control">
+                                <input type="text" name = "matching_user_id" id="defaultFormLoginEmailEx" class="form-control">
 
                                 <br>
 
 
                                 <!-- select -->
 
-                                <select class="browser-default custom-select" name="tip_select">
+                                <select class="browser-default custom-select" name="matching_line_select">
                                     <option selected>주로 하는 라인</option>
                                     <option value="1">탑</option>
                                     <option value="2">정글</option>
@@ -126,7 +130,7 @@
                                 <hr>
                                 <!-- Default input email -->
                                 <label for="defaultFormEmailEx" class="grey-text">주로 하는 챔피언</label>
-                                <input type="email" id="defaultFormLoginEmailEx" class="form-control">
+                                <input type="text" name="matching_champ" id="defaultFormLoginEmailEx" class="form-control">
 
                                 <br>
 

@@ -1,19 +1,33 @@
-{% macro render_gamelist(game_time, game_summonerName) %}
+{% macro render_gamelist(game_time, game_summonerName, b_baronKills, b_win, b_towerKills, b_riftHeraldKills, b_inhibitorKills,
+    r_baronKills, r_win, r_towerKills, r_riftHeraldKills, r_inhibitorKills, kill,death,assist,gold,totalDmg,champDmg,takenDmg,minion,heal,
+    largekill,magicDmg,psyDmg,champlevel,visionScore,v_wardbuy,wardsplaced,wardskill,rune_1,rune_2,spell_1,spell_2,champname) %}
 
 <ul class="list-group">
     {% for i in range(20) %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-        게임시간/챔피언 {{game_time[i]}}
+        <p>게임시간/{{game_time[i] // 60}} 분<br>
+            {{ champname[i] }}</p>
         <span class="badge badge-primary badge-pill">잘한점</span>
         <span class="badge badge-danger badge-pill">못한점</span>
-        게임에 참여한 플레이어
+            <p>
+            블루팀 : {{ b_win[i] }} 레드팀 : {{ r_win[i] }}<br>
+            블루 포탑 : {{ b_towerKills[i] }}   레드 포탑 : {{ r_towerKills[i] }}<br>
+            블루 억제기 : {{ b_inhibitorKills[i] }}   레드 억제기 : {{ r_inhibitorKills[i] }}<br>
+            블루 바론 : {{ b_baronKills[i] }}   레드 바론 : {{ r_baronKills[i] }}<br>
+            블루 전령 : {{ b_riftHeraldKills[i] }}  레드 전령 : {{ r_riftHeraldKills[i] }}<br>
+            </p>
         
-        {% for j in range(10) %}
-            {{game_summonerName[i][j]}}
-     
-        {% endfor %}
+            {% for j in range(5) %}
+
         
+            
+                {{game_summonerName[i][j]}} // {{game_summonerName[i][j+5]}}
+            
+            <br>
+            {% endfor %}
+
         
+
     </li>
     {% endfor %}
 

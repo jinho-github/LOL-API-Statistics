@@ -104,18 +104,16 @@
               <div class="col-lg-8 col-md-12">
                 <blockquote class="blockquote bq-primary">
                   <h3 class="h3">MOST ONE</h3>
-                  <h6 class="h6-responsive">최근 n 경기</h6>
-                  <h6 class="h6-responsive">oo으로 승리</h6>
-                  <h6 class="h6-responsive"><strong>
-                      <div style="float:left;">K/D/A</div>
-                      <div style="float:right;">0/0/0</div>
-                    </strong></h6>
+                  <h6 class="h6-responsive">최근 20 게임 중 {{ most_one[0][1] }}경기</h6>
+                  <h6 class="h6-responsive">{{ most_one[0][0] }}(으)로 승리</h6>
+                  
                 </blockquote>
               </div>
             </div>
           </div>
           <hr>
           <div class="col">
+            <h3 class="h3">최근 경기 K/D/A</h3>
             <canvas id="lineChart"></canvas>
           </div>
         </div>
@@ -124,14 +122,18 @@
     </section>
 
     {% from 'game_list.html' import render_gamelist %}
-    {{ render_gamelist(game_time, game_summonerName) }}
+    {{ render_gamelist(game_time, game_summonerName, b_baronKills, b_win, b_towerKills, b_riftHeraldKills, b_inhibitorKills,
+      r_baronKills, r_win, r_towerKills, r_riftHeraldKills, r_inhibitorKills, kill,death,assist,gold,totalDmg,champDmg,takenDmg,minion,heal,
+      largekill,magicDmg,psyDmg,champlevel,visionScore,v_wardbuy,wardsplaced,wardskill,rune_1,rune_2,spell_1,spell_2,champname) }}
 
 </main>
 <!--Main layout-->
 
 {% block script %}
 <script>
-  //line
+  var kill_arr = {{ kill }};
+  var assist_arr = {{ assist }};
+  var death_arr = {{ death }};
   var ctxL = document.getElementById("lineChart").getContext('2d');
   var myLineChart = new Chart(ctxL, {
     type: 'line',
@@ -139,7 +141,7 @@
       labels: ["7 게임 전", "6 게임 전", "5 게임 전", "4 게임 전", "3 게임 전", "2 게임 전", "최근 게임"],
       datasets: [{
         label: "K/A",
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: [kill_arr[6]+assist_arr[6], kill_arr[5]+assist_arr[5], kill_arr[4]+assist_arr[4], kill_arr[3]+assist_arr[3], kill_arr[2]+assist_arr[2], kill_arr[1]+assist_arr[1], kill_arr[0]+assist_arr[0] ],
         backgroundColor: [
           'rgba(0, 137, 132, .2)',
         ],
@@ -150,7 +152,7 @@
       },
       {
         label: "D",
-        data: [28, 48, 40, 19, 86, 27, 90],
+        data: [death_arr[6], death_arr[5], death_arr[4], death_arr[3], death_arr[2], death_arr[1], death_arr[0]],
 
         backgroundColor: [
           'rgba(105, 0, 132, .2)',

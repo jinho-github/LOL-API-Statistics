@@ -4,9 +4,9 @@ import os
 from flask_pymongo import PyMongo
 import requests
 import urllib.parse
+from collections import Counter #모스트 원 구하기
 #끌어오기 
 import opgg_crawling
-
 from time import sleep #받아오기 속도조절
 
 
@@ -104,22 +104,155 @@ def search():
 
     game_time = []
     game_summonerName = []
-    sleep(2) #20개 불러오기전에 쉬기
-    #테스트하다 가끔씩 api락 걸림
+    b_win= []
+    b_towerKills = []
+    b_inhibitorKills = []
+    b_baronKills = []
+    b_riftHeraldKills = []
+
+    r_win = []
+    r_towerKills = []
+    r_inhibitorKills = []
+    r_baronKills = []
+    r_riftHeraldKills = []
+
+    kill=[] #킬
+    death=[] #데스
+    assist=[] #어시
+    gold=[] #획득한 골드
+    totalDmg=[] #몬스터+게이머에게 가한 총 데미지
+    champDmg=[] #게이머에게만 가한 총 데미지
+    takenDmg=[] #받은 총 피해        
+    minion=[] #미니언 수
+    heal=[] #총 힐량
+    largekill=[] #최대 킬수(최대트리플킬 까지 했당! 최대 쿼드라했다! 이런거)
+    magicDmg=[] #마법공격력
+    psyDmg=[] #신체 공격력?
+    champlevel=[] #챔프 레벨
+        
+    visionScore=[] #시야점수
+    v_wardbuy=[] #산 제어와드 갯수
+    wardsplaced=[] #설치한 와드
+    wardskill=[] #파괴한 와드
+
+    rune_1 =[] #룬1
+    rune_2=[] #룬2
+
+    champID=[] #챔프
+    champname=[] #챔프 이름
+    spell_1 =[] #스펠1
+    spell_2 =[] #스펠2
+   
     for Game_ID in Game_IDs:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
         #플레이시간
         duration = res_GameData.json()['gameDuration']
         game_time.append(duration)
+
+        #팀정보
+        teams = res_GameData.json()['teams']
+        
+        blue = teams[0] 
+        red = teams[-1]
+          
+        #딕셔너리로 넘기는것 보다 그냥 변수하나하나쪼개서 주는게 편하낭..? 
+        if (blue['win']=='Win') :
+            b_win.append('승리')
+            r_win.append('패배')
+        else :
+            b_win.append('패배')
+            r_win.append('승리')
+                
+        b_towerKills.append(blue['towerKills'])#부순 포탑 갯수
+        b_inhibitorKills.append(blue['inhibitorKills'])#부순 억제기 갯수
+        b_baronKills.append(blue['baronKills'])#바론 처치 수
+        b_riftHeraldKills.append(blue['riftHeraldKills'])#전령 처치 수
+                 
+        r_towerKills.append(red['towerKills'])
+        r_inhibitorKills.append(red['inhibitorKills'])
+        r_baronKills.append(red['baronKills'])
+        r_riftHeraldKills.append(red['riftHeraldKills'])
+
         #최근 20회 데이터
+        participantId = []
         game_20 = res_GameData.json()['participantIdentities']
         temp = []
         for i in range(0, 10):
             game_player = game_20[i].get('player') 
             temp.append(game_player.get('summonerName'))
+        
+            #내 participantID 
+            name = game_player.get('summonerName')
+            if(name == sum_name):
+                participantId.append(i+1)
+
         game_summonerName.append(temp)
 
+        #개인 통계
+        stats=[]
+        participants = res_GameData.json()['participants']
+        for i in participantId:
+            stats.append(participants[i-1])
+        stats=stats[0]
+
+        my_stat=stats['stats']
+                
+        kill.append(my_stat['kills'])
+        death.append(my_stat['deaths'])
+        assist.append(my_stat['assists'])
+        gold.append(my_stat['goldEarned'])
+        totalDmg.append(my_stat['totalDamageDealt'])
+        champDmg.append(my_stat['totalDamageDealtToChampions'])
+        takenDmg.append(my_stat['totalDamageTaken'])
+        minion.append(my_stat['totalMinionsKilled'])
+        heal.append(my_stat['totalHeal'])
+        largekill.append(my_stat['largestMultiKill'])
+        magicDmg.append(my_stat['magicDamageDealtToChampions'])
+        psyDmg.append(my_stat['physicalDamageDealtToChampions'])
+        champlevel.append(my_stat['champLevel'])        
+        visionScore.append(my_stat['visionScore'])
+        v_wardbuy.append(my_stat['visionWardsBoughtInGame'])
+        #wardsplaced.append(my_stat['wardsPlaced'])
+        #wardskill.append(my_stat['wardsKilled'])
+        rune_1.append(my_stat['perkPrimaryStyle'])
+        rune_2.append(my_stat['perkSubStyle'])
+
+        spell_1.append(stats['spell1Id'])
+        spell_2.append(stats['spell2Id'])
+        champID.append(stats['championId'])
+
+
+    static_data_url = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/ko_KR/champion.json'
+    data = requests.get(static_data_url).json()
+    data = data['data']    
+    data=list(data.values())
+
+    
+
+    for i in range(0,20):
+        id=int(champID[i])
+        for j in range(0,147):
+            d = data[j]  
+            key = int(d['key'])
+            if (id == key):
+                n = d['name']
+                champname.append(n)
+   
+    #모스트
+    most_champ = sorted(champname)
+    most_champ = Counter(most_champ)
+    most_one = most_champ.most_common(1)
+    """
+    temp_index = []
+    for i in (0, 20):
+        if champname[i] is most_one[0][0]:
+            temp_index.append(i)
+    for j in temp_index:
+        k = kill[j]
+        d = death[j]
+        a = assist[j]
+    """
     def get_league_info(league_dict):
         res = [
         league_dict.get('queueType'),
@@ -137,10 +270,16 @@ def search():
         results.append(get_league_info(league_dict))
     length = len(results)
     
+    
 
     return render_template('application.html',sum_name=sum_name,results=results,
     length=length, profileIcon=profileIcon_id,
-    game_time=game_time , game_summonerName=game_summonerName)
+    game_time=game_time , game_summonerName=game_summonerName, 
+                            b_baronKills=b_baronKills, b_win=b_win, b_towerKills=b_towerKills, b_riftHeraldKills=b_riftHeraldKills, b_inhibitorKills=b_inhibitorKills,
+                            r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills,
+                            kill=kill, death=death, assist=assist, gold= gold, totalDmg=totalDmg, champDmg=champDmg, takenDmg=takenDmg, minion=minion, heal=heal,
+                            largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill,
+                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname, most_one=most_one)
 
 
     #에러페이지 404, 500
@@ -194,6 +333,51 @@ def Tip_add():
     flash('나만의 팁 등록!!') 
     return redirect(url_for('Tip_list'))
 
+@app.route('/matching')
+def matching():
+    try:
+        my_info = mongo.db.matching_user_info
+        name = str(session['email'])
+        name = name.split('@')[0]
+        get_my_info = my_info.find_one({'name' : name})
+        my_info_list = []
+        
+        my_info_list.append(get_my_info['matching_select'])
+        my_info_list.append(get_my_info['user_id'])
+        my_info_list.append(get_my_info['matching_champ'])
+
+        return render_template('matching.html', my_info_list=my_info_list)
+    except:
+        return render_template('matching.html')
+
+@app.route('/matching_user_add', methods=['POST', 'GET'])
+def matching_user_add():
+    if int(request.form['matching_line_select']) is 1:
+        select = '탑'
+    elif int(request.form['matching_line_select']) is 2:
+        select = '정글'
+    elif int(request.form['matching_line_select']) is 3:
+        select = '미드'
+    elif int(request.form['matching_line_select']) is 4:
+        select = '원딜'
+    elif int(request.form['matching_line_select']) is 5:
+        select = '서포터'
+    else:
+        select = '올라이너'
+
+    matching_user = mongo.db.matching_user_info
+    name = str(session['email'])
+    name = name.split('@')[0]
+
+    existing_user = matching_user.find_one({'name' : name})
+    if existing_user is None:
+        matching_user.insert({'matching_select' : select, 'user_id' : request.form['matching_user_id'], 'matching_champ' : request.form['matching_champ'],  'name' : name })
+        flash('내 매칭 정보 등록!!')
+    else:
+        matching_user.update({'name': name}, {'matching_select' : select, 'user_id' : request.form['matching_user_id'], 'matching_champ' : request.form['matching_champ'], 'name' : name})
+        flash('내 매칭 정보 수정!!') 
+    return redirect(url_for('matching'))
+
 @app.route('/logout')
 def logout():
     session.pop('email', None)
@@ -231,9 +415,7 @@ def register():
         return redirect(url_for('index'))
     return render_template('index.html')
 
-@app.route('/matching')
-def matching():
 
-    return render_template('matching.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
