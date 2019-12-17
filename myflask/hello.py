@@ -142,10 +142,11 @@ def search():
 
     champID=[] #챔프
     champname=[] #챔프 이름
+    champEN=[] #챔프 영어이름
     spell_1 =[] #스펠1
     spell_2 =[] #스펠2
    
-    champname_e = [] #영문 이름
+    
 
     for Game_ID in Game_IDs:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
@@ -241,32 +242,21 @@ def search():
             key = int(d['key'])
             if (id == key):
                 n = d['name']
+                en_n =d['id']
+                champEN.append(en_n)
                 champname.append(n)
 
-    #영문
-    static_data_url_e = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json'
-    data_e = requests.get(static_data_url_e).json()
-    data_e = data_e['data']    
-    data_e=list(data_e.values())
-
-    for i in range(0,20):
-        id=int(champID[i])
-        for j in range(0,147):
-            d_e = data[j]  
-            key_e = int(d_e['key'])
-            if (id == key_e):
-                n_e = d_e['name']
-                champname_e.append(n_e)
    
     #모스트
     most_champ = sorted(champname)
     most_champ = Counter(most_champ)
     most_one = most_champ.most_common(1)
 
-    #모스트 영문
-    most_champ_e = sorted(champname_e)
+    #모스트 영어
+    most_champ_e = sorted(champEN)
     most_champ_e = Counter(most_champ_e)
     most_one_e = most_champ_e.most_common(1)
+
     """
     temp_index = []
     for i in (0, 20):
@@ -303,7 +293,7 @@ def search():
                             r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills,
                             kill=kill, death=death, assist=assist, gold= gold, totalDmg=totalDmg, champDmg=champDmg, takenDmg=takenDmg, minion=minion, heal=heal,
                             largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill,
-                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname, most_one=most_one, champname_e=champname_e, most_one_e=most_one_e)
+                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname, most_one=most_one, champEN = champEN, most_one_e = most_one_e)
 
 
     #에러페이지 404, 500
@@ -365,12 +355,21 @@ def matching():
         name = name.split('@')[0]
         get_my_info = my_info.find_one({'name' : name})
         my_info_list = []
-        
         my_info_list.append(get_my_info['matching_select'])
         my_info_list.append(get_my_info['user_id'])
         my_info_list.append(get_my_info['matching_champ'])
 
-        return render_template('matching.html', my_info_list=my_info_list)
+        user_info_list = []
+        get_user_infos = my_info.find( { 'name': { '$ne': name } } )
+        
+        for get_user_info in get_user_infos:
+            temp_info = []
+            temp_info.append(get_user_info['matching_select'])
+            temp_info.append(get_user_info['user_id'])
+            temp_info.append(get_user_info['matching_champ'])
+            user_info_list.append(temp_info)
+
+        return render_template('matching.html', my_info_list=my_info_list, user_info_list=user_info_list)
     except:
         return render_template('matching.html')
 

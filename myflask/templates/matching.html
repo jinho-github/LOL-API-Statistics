@@ -30,9 +30,7 @@
                         <div class="card-body">
 
                             <div class="media d-block d-md-flex mt-3">
-                                <img class="d-flex mb-3 mx-auto z-depth-1"
-                                    src="https://mdbootstrap.com/img/Photos/Avatars/img (30).jpg"
-                                    alt="Generic placeholder image" style="width: 100px;">
+                                
                                 <div class="media-body text-center text-md-left ml-md-3 ml-0">
                                     {% if my_info_list is defined  %}
                                     <h5 class="mt-0 font-weight-bold">{{ my_info_list[1] }}
@@ -59,27 +57,26 @@
 
                         <div class="card-header font-weight-bold">
                             <span>매칭된 유저</span>
-
+                            
                         </div>
 
                         <!--Card content-->
+                        {% for i in range(0, user_info_list|length) %}
                         <div class="card-body">
 
                             <div class="media d-block d-md-flex mt-3">
-                                <img class="d-flex mb-3 mx-auto z-depth-1"
-                                    src="https://mdbootstrap.com/img/Photos/Avatars/img (30).jpg"
-                                    alt="Generic placeholder image" style="width: 100px;">
                                 <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                                    <h5 class="mt-0 font-weight-bold">유저 아이디
+                                    <h5 class="mt-0 font-weight-bold">{{user_info_list[i][1]}}
                                     </h5>
 
-                                    <strong>주 라인 : </strong>
-                                    <strong>주 챔피언 : </strong>
+                                    <strong>주 라인 : {{user_info_list[i][0]}}</strong><br>
+                                    <strong>주 챔피언 : {{user_info_list[i][2]}}</strong><br>
                                     <strong>승률 : </strong>
                                 </div>
                             </div>
 
                         </div>
+                        {% endfor %}
 
                     </div>
                     <!--/.Card-->
