@@ -4,6 +4,7 @@ import os
 from flask_pymongo import PyMongo
 import requests
 import urllib.parse
+from flask_ngrok import run_with_ngrok
 from collections import Counter #모스트 원 구하기
 #끌어오기 
 import opgg_crawling
@@ -13,6 +14,7 @@ from time import sleep #받아오기 속도조절
 apikey = os.environ['LOL_API_KEY']
 
 app = Flask(__name__)
+run_with_ngrok(app)
 #DB와 비밀번호는 환경변수에서 가져온다.
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['MONGO_URI'] = os.environ['MONGO_KEY']
@@ -94,7 +96,7 @@ def search():
     league_dicts = res_league.json()
 
     #매치정보 불러오기
-    url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}".format(accountId) #{encryptedAccountId} = account_ID
+    url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}?queue=420".format(accountId)  #{encryptedAccountId} = account_ID
     res_GameID = requests.get(url=url_GameID, headers=headers)
     Matches = res_GameID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
     #Matches = Matches.json()['matches']
@@ -143,6 +145,8 @@ def search():
     spell_1 =[] #스펠1
     spell_2 =[] #스펠2
    
+    champname_e = [] #영문 이름
+
     for Game_ID in Game_IDs:
         url_GameData = "https://kr.api.riotgames.com/lol/match/v4/matches/{}".format(Game_ID)
         res_GameData = requests.get(url=url_GameData, headers = headers)
@@ -238,11 +242,31 @@ def search():
             if (id == key):
                 n = d['name']
                 champname.append(n)
+
+    #영문
+    static_data_url_e = 'http://ddragon.leagueoflegends.com/cdn/9.24.2/data/en_US/champion.json'
+    data_e = requests.get(static_data_url_e).json()
+    data_e = data_e['data']    
+    data_e=list(data_e.values())
+
+    for i in range(0,20):
+        id=int(champID[i])
+        for j in range(0,147):
+            d_e = data[j]  
+            key_e = int(d_e['key'])
+            if (id == key_e):
+                n_e = d_e['name']
+                champname_e.append(n_e)
    
     #모스트
     most_champ = sorted(champname)
     most_champ = Counter(most_champ)
     most_one = most_champ.most_common(1)
+
+    #모스트 영문
+    most_champ_e = sorted(champname_e)
+    most_champ_e = Counter(most_champ_e)
+    most_one_e = most_champ_e.most_common(1)
     """
     temp_index = []
     for i in (0, 20):
@@ -279,7 +303,7 @@ def search():
                             r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills,
                             kill=kill, death=death, assist=assist, gold= gold, totalDmg=totalDmg, champDmg=champDmg, takenDmg=takenDmg, minion=minion, heal=heal,
                             largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill,
-                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname, most_one=most_one)
+                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname, most_one=most_one, champname_e=champname_e, most_one_e=most_one_e)
 
 
     #에러페이지 404, 500
@@ -418,4 +442,5 @@ def register():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True, host='127.0.0.1')
+    app.run()

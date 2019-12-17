@@ -93,7 +93,8 @@
               <div class="col-lg-4 col-md-12">
                 <!--Image-->
                 <div class="view overlay rounded z-depth-1-half mb-">
-                  <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/Lux.png" class="img-thumbnail"
+                  {{most_one_e[0][0]}}
+                  <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/{{most_one_e[0][0]}}.png" class="img-thumbnail"
                     alt="Sample post image">
                   <a>
                     <div class="mask rgba-white-slight"></div>
@@ -124,7 +125,7 @@
     {% from 'game_list.html' import render_gamelist %}
     {{ render_gamelist(game_time, game_summonerName, b_baronKills, b_win, b_towerKills, b_riftHeraldKills, b_inhibitorKills,
       r_baronKills, r_win, r_towerKills, r_riftHeraldKills, r_inhibitorKills, kill,death,assist,gold,totalDmg,champDmg,takenDmg,minion,heal,
-      largekill,magicDmg,psyDmg,champlevel,visionScore,v_wardbuy,wardsplaced,wardskill,rune_1,rune_2,spell_1,spell_2,champname) }}
+      largekill,magicDmg,psyDmg,champlevel,visionScore,v_wardbuy,wardsplaced,wardskill,rune_1,rune_2,spell_1,spell_2,champname, champname_e) }}
 
 </main>
 <!--Main layout-->
