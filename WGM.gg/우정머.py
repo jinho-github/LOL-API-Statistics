@@ -110,6 +110,7 @@ def data():
     rune_2=[] #룬2
 
     champID=[] #챔프
+    champEN=[] #챔프 영어이름
     champname=[] #챔프 이름
     spell_1 =[] #스펠1
     spell_2 =[] #스펠2
@@ -204,6 +205,8 @@ def data():
             key = int(d['key'])
             if (id == key):
                 n = d['name']
+                en_n =d['id']
+                champEN.append(en_n)
                 champname.append(n)
 
         
@@ -212,7 +215,7 @@ def data():
                             r_baronKills=r_baronKills, r_win=r_win, r_towerKills=r_towerKills, r_riftHeraldKills=r_riftHeraldKills, r_inhibitorKills=r_inhibitorKills,
                             kill=kill, death=death, assist=assist, gold= gold, totalDmg=totalDmg, champDmg=champDmg, takenDmg=takenDmg, minion=minion, heal=heal,
                             largekill=largekill, magicDmg=magicDmg, psyDmg=psyDmg,champlevel=champlevel, visionScore=visionScore, v_wardbuy=v_wardbuy,wardsplaced=wardsplaced, wardskill=wardskill,
-                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname )
+                            rune_1=rune_1, rune_2=rune_2,spell_1=spell_1, spell_2=spell_2,champname=champname, champEN=champEN)
    
 if __name__ == '__main__':
     app.run(debug=True)
