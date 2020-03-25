@@ -4,7 +4,7 @@ import os
 from flask_pymongo import PyMongo
 import requests
 import urllib.parse
-from flask_ngrok import run_with_ngrok
+#from flask_ngrok import run_with_ngrok
 from collections import Counter #모스트 원 구하기
 #끌어오기 
 import opgg_crawling
@@ -14,7 +14,7 @@ from time import sleep #받아오기 속도조절
 apikey = os.environ['LOL_API_KEY']
 
 app = Flask(__name__)
-run_with_ngrok(app)
+#run_with_ngrok(app)
 #DB와 비밀번호는 환경변수에서 가져온다.
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 app.config['MONGO_URI'] = os.environ['MONGO_KEY']
@@ -100,9 +100,11 @@ def search():
     res_GameID = requests.get(url=url_GameID, headers=headers)
     Matches = res_GameID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
     #Matches = Matches.json()['matches']
-    Game_IDs = []  
+    Game_IDs = []
+  
     for m in range(0, 20):
         Game_IDs.append(Matches[m].get('gameId'))
+
 
     game_time = []
     game_summonerName = []
@@ -161,7 +163,6 @@ def search():
         blue = teams[0] 
         red = teams[-1]
           
-        #딕셔너리로 넘기는것 보다 그냥 변수하나하나쪼개서 주는게 편하낭..? 
         if (blue['win']=='Win') :
             b_win.append('승리')
             r_win.append('패배')

@@ -16,14 +16,14 @@
                 class="img-responsive center-block" alt="Sample post image">
         </p>
         <p>
-        {% if game_time[i] // 60 >=  visionScore[i] %}
+        {% if game_time[i] // 60 <=  visionScore[i] %}
         <span class="badge badge-primary badge-pill">시야점수 좋음</span><br>
         {% endif %}
         <span class="badge badge-primary badge-pill">{{largekill[i]}}연속 킬 달성!</span>
 
         </p>
         <p>
-        {% if game_time[i] // 60 < visionScore[i] %}
+        {% if game_time[i] // 60 > visionScore[i] %}
         <span class="badge badge-danger badge-pill">시야점수 나쁨</span><br>
         {% endif %}
 
