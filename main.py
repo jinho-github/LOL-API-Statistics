@@ -29,7 +29,7 @@ Rate Limits
 """
 
 @app.route('/')
-def index():
+def index(name=None):
 
     tip_List = mongo.db.tip_List
     get_tips = tip_List.find().sort([['_id', -1]]).limit(10)
