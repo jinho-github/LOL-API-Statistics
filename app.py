@@ -13,7 +13,7 @@ from time import sleep #받아오기 속도조절
 
 apikey = os.environ['LOL_API_KEY']
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
 #run_with_ngrok(app)
 #DB와 비밀번호는 환경변수에서 가져온다.
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
