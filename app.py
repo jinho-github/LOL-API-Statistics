@@ -29,7 +29,6 @@ Rate Limits
 """
 
 @app.route('/')
-@app.route('/index')
 def index():
 
     tip_List = mongo.db.tip_List
