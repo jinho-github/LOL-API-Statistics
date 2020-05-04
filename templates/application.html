@@ -94,7 +94,7 @@
                 <!--Image-->
                 <div class="view overlay rounded z-depth-1-half mb-">
                   
-                  <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/{{most_one_e[0][0]}}.png" class="img-thumbnail"
+                  <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/{{most_one[0]}}.png" class="img-thumbnail"
                     alt="Sample post image">
                   <a>
                     <div class="mask rgba-white-slight"></div>
@@ -105,8 +105,8 @@
               <div class="col-lg-8 col-md-12">
                 <blockquote class="blockquote bq-primary">
                   <h3 class="h3">MOST ONE</h3>
-                  <h6 class="h6-responsive">최근 20 게임 중 {{ most_one[0][1] }}경기</h6>
-                  <h6 class="h6-responsive">{{ most_one[0][0] }}(으)로 승리</h6>
+                  <h6 class="h6-responsive">최근 20 게임 중 {{ most_num }}경기</h6>
+                  <h6 class="h6-responsive">{{ most_one[1] }}(으)로 승리</h6>
                   
                 </blockquote>
               </div>
@@ -123,18 +123,23 @@
     </section>
 
     {% from 'game_list.html' import render_gamelist %}
-    {{ render_gamelist(game_time, game_summonerName, b_baronKills, b_win, b_towerKills, b_riftHeraldKills, b_inhibitorKills,
-      r_baronKills, r_win, r_towerKills, r_riftHeraldKills, r_inhibitorKills, kill,death,assist,gold,totalDmg,champDmg,takenDmg,minion,heal,
-      largekill,magicDmg,psyDmg,champlevel,visionScore,v_wardbuy,wardsplaced,wardskill,rune_1,rune_2,spell_1,spell_2,champname, champEN) }}
+    {{ render_gamelist(my_most_one, Game_DATAs, zip) }}
 
 </main>
 <!--Main layout-->
 
 {% block script %}
 <script>
-  var kill_arr = {{ kill }};
-  var assist_arr = {{ assist }};
-  var death_arr = {{ death }};
+  var kill_arr = [];
+  var assist_arr = [];
+  var death_arr = [];
+
+  {% for Game_DATA in Game_DATAs %}
+    kill_arr.push({{ Game_DATA['stats']['kills'] }});
+    assist_arr.push({{ Game_DATA['stats']['assists'] }});
+    death_arr.push({{ Game_DATA['stats']['deaths'] }});
+    
+  {% endfor %}
   var ctxL = document.getElementById("lineChart").getContext('2d');
   var myLineChart = new Chart(ctxL, {
     type: 'line',

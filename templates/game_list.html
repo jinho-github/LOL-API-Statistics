@@ -1,68 +1,81 @@
-{% macro render_gamelist(game_time, game_summonerName, b_baronKills, b_win, b_towerKills, b_riftHeraldKills, b_inhibitorKills,
-    r_baronKills, r_win, r_towerKills, r_riftHeraldKills, r_inhibitorKills, kill,death,assist,gold,totalDmg,champDmg,takenDmg,minion,heal,
-    largekill,magicDmg,psyDmg,champlevel,visionScore,v_wardbuy,wardsplaced,wardskill,rune_1,rune_2,spell_1,spell_2,champname, champEN) %}
+{% macro render_gamelist(my_most_one, Game_DATAs, zip) %}
 
-<ul class="list-group">
-    {% for i in range(20) %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-        <p><span class="badge badge-light">{{game_time[i] // 60}} 분 게임</span><br>
-            <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/{{ champEN[i] }}.png" width="50"
-                class="img-responsive center-block" alt="Sample post image"> Lv : {{ champlevel[i] }}<br>
-                <span class="badge badge-light">{{kill[i]}}/{{death[i]}}/{{assist[i]}}</span>
-        </p>
-        <p><img src="https://static.u.gg/assets/lol/runes/{{rune_1[i]}}.png" width="50"
-                class="img-responsive center-block" alt="Sample post image"><br>
-            <img src="https://static.u.gg/assets/lol/runes/{{rune_2[i]}}.png" width="50"
-                class="img-responsive center-block" alt="Sample post image">
-        </p>
-        <p>
-        {% if game_time[i] // 60 <=  visionScore[i] %}
-        <span class="badge badge-primary badge-pill">시야점수 좋음</span><br>
-        {% endif %}
-        <span class="badge badge-primary badge-pill">{{largekill[i]}}연속 킬 달성!</span>
-
-        </p>
-        <p>
-        {% if game_time[i] // 60 > visionScore[i] %}
-        <span class="badge badge-danger badge-pill">시야점수 나쁨</span><br>
-        {% endif %}
-
-        </p>
-        <p>
-            <span class="badge badge-info">획득골드 : {{ gold[i] }} </span><br>
-            <span class="badge badge-info">cs : {{ minion[i] }} </span><br>
-            <span class="badge badge-info">시야점수 : {{ visionScore[i] }}</span>
-            
-        </p>
+<table class="table table-bordered">
+    <thead class="black white-text">
+      <tr>
+        <th scope="col">INFO</th>
+        <th scope="col">LV/CS</th>
+        <th scope="col">룬</th>
+        <th scope="col">게임 정보</th>
+        <th scope="col">데미지</th>
+        <th scope="col">블루 오브젝트</th>
+        <th scope="col">레드 오브젝트</th>
+        <th scope="col">블루 팀</th>
+        <th scope="col">레드 팀</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for i, Game_DATA in zip(my_most_one, Game_DATAs) %}
+      <tr>
+        <td>{{ Game_DATA['game_time'] // 60 }}분 게임<br>
+            <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/{{ i[0] }}.png" width="50"
+            class="img-responsive center-block" alt="Sample post image"><br>
+            {{ Game_DATA['stats']['kills'] }}/{{ Game_DATA['stats']['deaths'] }}/{{ Game_DATA['stats']['assists'] }}
+        </td>
+        <td>Lv : {{ Game_DATA['stats']['champLevel'] }}<br>
+        <span class="badge badge-info">cs : {{ Game_DATA['stats']['totalMinionsKilled'] }} </span><br>
+        </td>
+        <td><img src="https://static.u.gg/assets/lol/runes/{{ Game_DATA['stats']['perkPrimaryStyle'] }}.png" width="50"
+            class="img-responsive center-block" alt="Sample post image"><br>
+        <img src="https://static.u.gg/assets/lol/runes/{{ Game_DATA['stats']['perkSubStyle'] }}.png" width="50"
+            class="img-responsive center-block" alt="Sample post image"></td>
+        <td>
+            <span class="badge badge-info">획득골드 : {{ Game_DATA['stats']['goldEarned'] }} </span><br>
+            {% if Game_DATA['game_time'] // 60 <=  Game_DATA['stats']['visionScore'] %}
+                <span class="badge badge-primary">시야점수 좋음</span><br>
+            {% else %}
+            <span class="badge badge-danger">시야점수 나쁨</span><br>
+            {% endif %}
+            <span class="badge badge-primary">{{Game_DATA['stats']['largestMultiKill']}}연속 킬 달성!</span><br>
+            <span class="badge badge-info">시야점수 : {{ Game_DATA['stats']['visionScore'] }}</span>
+        </td>
     
-        <p>
-            <span class="badge badge-info">총 데미지 : {{ totalDmg[i] }} </span><br>
-            <span class="badge badge-info">AP 데미지 : {{ magicDmg[i] }} </span><br>
-                <span class="badge badge-info">AD 데미지 : {{ psyDmg[i] }}</span> <br>
-                <span class="badge badge-info">챔피언 : {{ champDmg[i] }}</span> <br>
-                <span class="badge badge-info">받은 피해 : {{ takenDmg[i] }}</span> <br>
-                <span class="badge badge-info">회복 : {{ heal[i] }}</span>
-                
-            
-        </p>
-        <p>
-            <span class="badge badge-primary badge-pill">*BLUE {{ b_win[i] }}*</span><span class="badge badge-danger badge-pill">*RED {{ r_win[i] }}*</span><br>
-            <span class="badge badge-primary badge-pill">포탑 파괴: {{ b_towerKills[i] }} </span><span class="badge badge-danger badge-pill">포탑 파괴 : {{ r_towerKills[i] }}</span><br>
-            <span class="badge badge-primary badge-pill">억제기 파괴: {{ b_inhibitorKills[i] }} </span><span class="badge badge-danger badge-pill">억제기 파괴 : {{ r_inhibitorKills[i] }}</span><br>
-            <span class="badge badge-primary badge-pill">바론 처치: {{ b_baronKills[i] }} </span><span class="badge badge-danger badge-pill">바론 처치 : {{ r_baronKills[i] }}</span><br>
-            <span class="badge badge-primary badge-pill">전령 처치: {{ b_riftHeraldKills[i] }} </span><span class="badge badge-danger badge-pill">전령 처치 : {{ r_riftHeraldKills[i] }}</span>
-        
-        </p>
-        <p>
-        {% for j in range(5) %}
-        <span class="badge badge-light">{{game_summonerName[i][j]}}</span> || <span class="badge badge-light">{{game_summonerName[i][j+5]}}</span> <br>
-        {% endfor %}
-        </p>
+        <td>
+            <span class="badge badge-info">총 데미지 : {{ Game_DATA['stats']['totalDamageDealt'] }} </span><br>
+            <span class="badge badge-info">AP 데미지 : {{ Game_DATA['stats']['magicDamageDealtToChampions'] }} </span><br>
+            <span class="badge badge-info">AD 데미지 : {{ Game_DATA['stats']['physicalDamageDealtToChampions'] }}</span> <br>
+            <span class="badge badge-info">챔피언 : {{ Game_DATA['stats']['totalDamageDealtToChampions'] }}</span> <br>
+            <span class="badge badge-info">받은 피해 : {{ Game_DATA['stats']['totalDamageTaken'] }}</span> <br>
+            <span class="badge badge-info">회복 : {{ Game_DATA['stats']['totalHeal'] }}</span>
+        </td>
+        <td>
+            <span class="badge badge-primary badge-pill">*BLUE *</span><br>
+            <span class="badge badge-primary badge-pill">포탑 파괴:  {{Game_DATA['b_towerKills']}}</span><br>
+            <span class="badge badge-primary badge-pill">억제기 파괴: {{Game_DATA['b_inhibitorKills']}}</span><br>
+            <span class="badge badge-primary badge-pill">바론 처치: {{Game_DATA['b_baronKills']}}</span><br>
+            <span class="badge badge-primary badge-pill">전령 처치: {{Game_DATA['b_riftHeraldKills']}}</span>
+        </td>
+        <td>
+            <span class="badge badge-danger badge-pill">*RED*</span><br>
+            <span class="badge badge-danger badge-pill">포탑 파괴 : {{Game_DATA['r_towerKills']}}</span><br>
+            <span class="badge badge-danger badge-pill">억제기 파괴 : {{Game_DATA['r_inhibitorKills']}}</span><br>
+            <span class="badge badge-danger badge-pill">바론 처치 : {{Game_DATA['r_baronKills']}}</span><br>
+            <span class="badge badge-danger badge-pill">전령 처치 : {{Game_DATA['r_riftHeraldKills']}}</span>
+        </td>
+        <td>
+            {% for j in range(5) %}
+                <span class="badge badge-light">{{ Game_DATA['b_player'][j] }}</span><br>
+            {% endfor %}
+        </td>
+        <td>
+            {% for j in range(5) %}
+                <span class="badge badge-light">{{ Game_DATA['r_player'][j] }}</span><br>
+            {% endfor %}
+        </td>
 
-
-    </li>
-    {% endfor %}
-
-</ul>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
 {% endmacro %}

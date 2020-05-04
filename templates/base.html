@@ -163,11 +163,11 @@
 
 {% endblock %}
 <!-- 로그인 모달 -->
-{% from 'login_modal.html' import render_login %}
+{% from 'modal/login_modal.html' import render_login %}
     {{ render_login() }}
 
 <!-- 회원가입 모달 --> 
-{% from 'register_modal.html' import render_register %}
+{% from 'modal/register_modal.html' import render_register %}
     {{ render_register() }}
 
 

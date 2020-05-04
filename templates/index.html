@@ -101,19 +101,19 @@ body {
 </main>
 
 <!-- 탑 모달 -->
-{% from 'Top_modal.html' import render_Top_modal %}
+{% from 'modal/Top_modal.html' import render_Top_modal %}
 {{ render_Top_modal(Top_champ_name, Top_champ_pick_per) }}
 <!-- 미드 모달 -->
-{% from 'Mid_modal.html' import render_Mid_modal %}
+{% from 'modal/Mid_modal.html' import render_Mid_modal %}
 {{ render_Mid_modal(Mid_champ_name, Mid_champ_pick_per) }}
 <!-- 정글 모달 -->
-{% from 'Jungle_modal.html' import render_Jungle_modal %}
+{% from 'modal/Jungle_modal.html' import render_Jungle_modal %}
 {{ render_Jungle_modal(Jungle_champ_name, Jungle_champ_pick_per) }}
 <!-- 원딜 모달 -->
-{% from 'AD_modal.html' import render_Ad_modal %}
+{% from 'modal/AD_modal.html' import render_Ad_modal %}
 {{ render_Ad_modal(Ad_champ_name, Ad_champ_pick_per) }}
 <!--  서포터 모달 -->
-{% from 'Support_modal.html' import render_Support_modal %}
+{% from 'modal/Support_modal.html' import render_Support_modal %}
 {{ render_Support_modal(Support_champ_name, Support_champ_pick_per) }}
 
 {% endblock %}
