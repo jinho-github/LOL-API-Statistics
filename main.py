@@ -10,11 +10,11 @@ from time import sleep #받아오기 속도조절
 
 
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__)
 #DB와 비밀번호는 환경변수에서 가져온다.
-app.config['SECRET_KEY'] = ""
-app.config['MONGO_URI'] = ""
-apikey = ""
+app.config['SECRET_KEY'] = "mysecret"
+app.config['MONGO_URI'] = "mongodb+srv://jinho0217:test@cluster0-klwld.gcp.mongodb.net/WGM_DB?retryWrites=true&w=majority"
+apikey = "RGAPI-d03dcc18-68bb-4b69-9fb3-fe797432e5fb"
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
@@ -97,6 +97,7 @@ def search():
     #매치정보 불러오기
     url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}?queue=420".format(accountId)  #{encryptedAccountId} = account_ID
     res_GameID = requests.get(url=url_GameID, headers=headers)
+    
     Matches = res_GameID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
     #매치 20개로 자르기
     Matches = Matches[:20]
@@ -353,4 +354,4 @@ def register():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1')
+    app.run(host='127.0.0.1')
