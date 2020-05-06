@@ -21,7 +21,7 @@ nav부분과 footer 부분은 다른 페이지로 넘어가더라도 바뀌지 �
 
 (jinja2문법을 이용해서 base.html을 기초로 하는 html파일들을 만들 수 있습니다.)
 
-[##_Image|kage@00ag8/btqAQM8bVPK/W8UKXZ3C528z12r9NlpQTK/img.png|alignLeft|data-origin-width="0" data-origin-height="0"|||_##]
+https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2F00ag8%2FbtqAQM8bVPK%2FW8UKXZ3C528z12r9NlpQTK%2Fimg.png
 
 헤더와 footer 사이에 block content 라고 선언합니다.
 
