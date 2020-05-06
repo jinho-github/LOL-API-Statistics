@@ -1,2 +1,2 @@
 # LOL-API-Statistics
-Create web pages that analyze and advise users through analysis
+배포된 페이지 : http://3.133.102.24:5000/
