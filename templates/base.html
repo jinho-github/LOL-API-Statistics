@@ -18,7 +18,13 @@
   {% block css %}
   {% endblock %}
 </head>
+<!-- 로그인 모달 -->
+{% from 'modal/login_modal.html' import render_login %}
+    {{ render_login() }}
 
+<!-- 회원가입 모달 --> 
+{% from 'modal/register_modal.html' import render_register %}
+    {{ render_register() }}
 <body>
   <!--Main Navigation-->
   <header>
@@ -162,13 +168,7 @@
 
 
 {% endblock %}
-<!-- 로그인 모달 -->
-{% from 'modal/login_modal.html' import render_login %}
-    {{ render_login() }}
 
-<!-- 회원가입 모달 --> 
-{% from 'modal/register_modal.html' import render_register %}
-    {{ render_register() }}
 
 
 </html>

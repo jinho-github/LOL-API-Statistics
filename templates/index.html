@@ -2,7 +2,6 @@
 
 {% block content %}
 
-
 {% block css %}
 <style>
 body {
@@ -21,7 +20,21 @@ body {
 }
 </style>
 {% endblock %}
-
+<!-- 탑 모달 -->
+{% from 'modal/Top_modal.html' import render_Top_modal %}
+{{ render_Top_modal(Top_champ_name, Top_champ_pick_per) }}
+<!-- 미드 모달 -->
+{% from 'modal/Mid_modal.html' import render_Mid_modal %}
+{{ render_Mid_modal(Mid_champ_name, Mid_champ_pick_per) }}
+<!-- 정글 모달 -->
+{% from 'modal/Jungle_modal.html' import render_Jungle_modal %}
+{{ render_Jungle_modal(Jungle_champ_name, Jungle_champ_pick_per) }}
+<!-- 원딜 모달 -->
+{% from 'modal/AD_modal.html' import render_Ad_modal %}
+{{ render_Ad_modal(Ad_champ_name, Ad_champ_pick_per) }}
+<!--  서포터 모달 -->
+{% from 'modal/Support_modal.html' import render_Support_modal %}
+{{ render_Support_modal(Support_champ_name, Support_champ_pick_per) }}
 
 <main class="mt-5 pt-5">
   <div class="container">
@@ -100,21 +113,7 @@ body {
   </div>
 </main>
 
-<!-- 탑 모달 -->
-{% from 'modal/Top_modal.html' import render_Top_modal %}
-{{ render_Top_modal(Top_champ_name, Top_champ_pick_per) }}
-<!-- 미드 모달 -->
-{% from 'modal/Mid_modal.html' import render_Mid_modal %}
-{{ render_Mid_modal(Mid_champ_name, Mid_champ_pick_per) }}
-<!-- 정글 모달 -->
-{% from 'modal/Jungle_modal.html' import render_Jungle_modal %}
-{{ render_Jungle_modal(Jungle_champ_name, Jungle_champ_pick_per) }}
-<!-- 원딜 모달 -->
-{% from 'modal/AD_modal.html' import render_Ad_modal %}
-{{ render_Ad_modal(Ad_champ_name, Ad_champ_pick_per) }}
-<!--  서포터 모달 -->
-{% from 'modal/Support_modal.html' import render_Support_modal %}
-{{ render_Support_modal(Support_champ_name, Support_champ_pick_per) }}
+
 
 {% endblock %}
 

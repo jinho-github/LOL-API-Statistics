@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
+<!-- 글쓰기 모달 -->
+{% from 'modal/writing_modal.html' import render_writing_modal %}
+{{ render_writing_modal() }}
+<!-- 내용보기 모달 -->
+{% from 'modal/view_context.html' import render_Top_modal %}
+{{ render_Top_modal(tip_list_size, tip_lists) }}
 
 <main class="mt-5 pt-5">
     
@@ -47,10 +53,5 @@
 
 
 
-<!-- 글쓰기 모달 -->
-{% from 'modal/writing_modal.html' import render_writing_modal %}
-{{ render_writing_modal() }}
-<!-- 내용보기 모달 -->
-{% from 'modal/view_context.html' import render_Top_modal %}
-{{ render_Top_modal(tip_list_size, tip_lists) }}
+
 {% endblock %}

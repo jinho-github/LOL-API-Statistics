@@ -12,9 +12,9 @@ from time import sleep #받아오기 속도조절
 
 app = Flask(__name__)
 #DB와 비밀번호는 환경변수에서 가져온다.
-app.config['SECRET_KEY'] = "mysecret"
-app.config['MONGO_URI'] = "mongodb+srv://jinho0217:test@cluster0-klwld.gcp.mongodb.net/WGM_DB?retryWrites=true&w=majority"
-apikey = "RGAPI-d03dcc18-68bb-4b69-9fb3-fe797432e5fb"
+app.config['SECRET_KEY'] = ""
+app.config['MONGO_URI'] = ""
+apikey = ""
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 
