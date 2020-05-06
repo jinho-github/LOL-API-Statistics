@@ -194,4 +194,208 @@ url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}
 
 ---
 
+## 2) 웹페이지 구현 및 시각화
+
+> Python-Flask를 사용했으며 부트스트랩으로 시각화 했습니다. 
+
+> 코드가 길어 생략합니다. (코드는 [https://github.com/Yeowoolee/LOL-API-Statistics](https://github.com/Yeowoolee/LOL-API-Statistics) 에서 확인 가능합니다.)
+
+-   이번 글에서는 페이지의 구성에 대해서만 간략히 설명합니다.
+
+> 메인화면 header
+
+
+![로그인 전 상단](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FykrFm%2FbtqBJf05TYY%2Fhxd193ZOhrb9LaYCL9PqvK%2Fimg.png)
+
+![로그인 후 상단](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbHy4LQ%2FbtqBIIoUYCG%2FR9zKxDMMHYfuk4LYeQkjB1%2Fimg.png)
+
+모든 페이지의 상단에 존재해야 하기 때문에 base.html의 <header> 에 코드를 작성 했습니다.
+
+jinja2 문법으로 사용자가 로그인에 성공하면 버튼이 바뀌도록 했습니다.
+
+> 메인화면 body 
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FciirYQ%2FbtqBFwKvuJE%2FdTNEc4cMDu2zcGL3kgK6k0%2Fimg.png)
+
+메인화면에는 위와 같이 소환사 정보 검색창, 라인 별 챔피언 추천, 추천 영상이 노출 되도록 했습니다.
+
+-   소환사 정보 검색창을 통해 리그오브레전드 게임 아이디를 넣고 검색하면 해당 아이디의 게임 정보가 표시된 페이지로 이동합니다.
+-   라인 별 챔피언 추천은 각 라이별 승률이 높은 챔피언을 모달을 통해 보여줍니다.
+-   추천 영상은 나만의 팁에서 작성한 글에 영상이 포함되어있을 경우 노출됩니다.
+
+> 소환사 정보 확인 페이지
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FoVqCU%2FbtqBGZ58UYo%2FBdn9gNURZQ3UUjh2mXake0%2Fimg.png)
+-   소환사 정보 검색 후 위 페이지로 이동하게 됩니다.
+-   api를 통해 불러온 정보를 시각적으로 보여주는 페이지 입니다.
+-   위와같이 페이지 상단에서는 현재 티어와 리그정보, 랭크 포인트 승패 정보와 모스트 챔피언 최근 경기 K/D/A를 그래프로 확인 할 수 있습니다.
+-   페이지 body 부분에는 최근 20 게임의 정보가 표시됩니다.
+
+> 나만의 팁 페이지
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FJdNXs%2FbtqBFvLI0qK%2FDRelY6cSOwarQbYvbmyv80%2Fimg.png)
+-   나만의 팁 페이지에서는 각 라인별 팁을 확인 할 수 있습니다.
+-   글쓰기 버튼을 클릭하면 글을 작성 할 수 있는 모달이 나타납니다.
+
+> 유저매칭 페이지
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FtF6Py%2FbtqBIHjocJM%2FinJKjkuyNA9iJYeaPyeKM0%2Fimg.png)
+-   내 정보를 등록하기 전에는 유저 매칭이 이루어지지 않습니다.
+-   유저매칭을 위해 자신의 게임 아이디와 라인, 주로하는 챔피언을 등록합니다.
+-   데이터베이스에 등록된 다른 사용자 정보를 이용해 매칭합니다.
+
+---
+## 데이터베이스 사용
+
+전적 검색 사이트의 회원가입, 로그인, 게시판, 유저 매칭, 전적 검색 여러 기능들을 구현하기 위해 데이터베이스를 사용했고 mongoDB를 사용했습니다. Flask를 사용했기 때문에 PHP구문 없이 데이터베이스를 활용할 수 있었습니다.
+
+> 회원가입
+
+![]()
+페이지 상단의 회원가입 버튼을 누르면
+
+아래와 같이 회원가입 모달이 페이지에 띄워집니다.
+
+![]()
+회원가입 모달에 이메일, 비밀번호를 입력하고 회원가입 버튼을 누르면
+
+'POST' 형태로 Flask에 전달됩니다.
+
+```
+@app.route('/register_modal', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        myuser = mongo.db.user_Info
+        existing_user = myuser.find_one({'email' : request.form['register_email']})
+        if existing_user is None:
+            hashpass = bcrypt.generate_password_hash(request.form['register_pw2'])
+            myuser.insert({'email' : request.form['register_email'], 'password' : hashpass})
+            flash('회원가입 성공!!') 
+            return redirect(url_for('index'))
+        flash('이미 사용중인 이메일입니다.') 
+        return redirect(url_for('index'))
+    return render_template('index.html')
+```
+
+만약 이메일이 mongoDB에 등록되어 있으면 이메일이면 '이미 사용중인 이메일입니다.'라는 플래시 메시지를 출력하고
+
+그렇지 않으면 mongoDB에 이메일과 비밀번호를 등록합니다.
+
+비밀번호는 bcrypt Hash함수를 사용하여 암호화된 상태로 데이터베이스에 저장됩니다.
+
+\-회원가입 실패
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbP4e3B%2FbtqBZrOONFx%2F7tj7kK1yFukGZ9YoLgSf3k%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbeXuow%2FbtqBZg7PrxU%2FgopEfwUb4hPWLawCX8eTVk%2Fimg.png)
+
+\-회원가입 성공
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbkkbkA%2FbtqBZNKSBMa%2FHhu0rpiIXEZtx0dfSuggXK%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FowUGr%2FbtqB1HbRrcU%2FFneg7yRHOmUcLII3ORmPLk%2Fimg.png)
+\-mongoDB에 등록된 이메일과 비밀번호
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FAPh1G%2FbtqBZrOPqNe%2FrZKxVJxcsRcu6T6tB4wxwk%2Fimg.png)
+
+> 로그인
+
+회원가입과 마찬가지로 로그인 버튼을 누르면 로그인 모달이 띄워지고
+
+mongoDB의 데이터와 비교해 이메일과 비밀번호가 일치하면 '로그인 성공' 플래시 메시지를 출력하고
+
+그렇지 않으면 '로그인 실패' 플레쉬를 출력합니다.
+
+bcrypt Hash함수를 사용하여 암호화해줬기 때문에 마찬가지로 bcrypt Hash함수를 이용해 복호화 후 비밀번호를 비교합니다.
+
+```
+@app.route('/login_modal', methods=['POST'])
+def login():
+    #if request.method == 'POST':
+    myuser = mongo.db.user_Info
+    login_user = myuser.find_one({'email' : request.form['login_email']})
+    if login_user:
+        pw_check = bcrypt.check_password_hash(login_user['password'], request.form['login_pw'])
+        if pw_check is True:
+            session['email'] = request.form['login_email']
+            flash('로그인 성공!')
+            return redirect(url_for('index'))
+        
+        flash('이메일, 패스워드를 다시 확인해주세요.')
+        return redirect(url_for('index'))
+    flash('이메일, 패스워드를 다시 확인해주세요.')
+    return redirect(url_for('index'))
+```
+
+\-로그인 성공
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FV3yyP%2FbtqB0e2wbiS%2F5E5aKMYdUAtPbSKIkOj421%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FqzPN8%2FbtqBZgzZp6o%2F36hOu9p6mCh9HoeUUEdsw1%2Fimg.png)
+
+\-로그인 실패
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FTDOhl%2FbtqB1HCWuyf%2FxNhinp3ooOGawzDQyUxJIK%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbT5iSQ%2FbtqBZr2kjRb%2FJsVS4Z5P1Nb27YebiIc5Vk%2Fimg.png)
+
+> 게시판
+
+로그인에 성공하면 '나만의 팁', '유저 매칭' 버튼이 생기게 됩니다.
+
+'나만의 팁' 버튼을 클릭하면 게시판으로 이동 할 수 있고 '글쓰기' 버튼을 눌러 정보를 입력할 수 있습니다.
+
+입력된 내용은 mongoDB에 저장되며 게시판 글을 클릭해 확인 할 수 있고
+
+유튜브 영상이 첨부된 경우 메인 페이지에서 확인이 가능합니다.
+
+\-게시판 글 등록
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbtijUB%2FbtqBZg06p6Y%2Fn7WyYJjMGGcnAydFe5bNCk%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FrpBFW%2FbtqB1cpUQp8%2FlU0zGzDoU7Oq7qJjbDi060%2Fimg.png)
+
+\-게시글 확인
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2F5TyIA%2FbtqBYf9xSeS%2FqMnIqcul37LK0R8lNXF8h1%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FlnaK0%2FbtqB1cjbJKK%2FH2RB1DRXMWxwGU9831gvl0%2Fimg.png)
+
+> 유저매칭
+
+유저 매칭 게시판으로 이동하면 사용자가 등록한 유저 정보에 맞춰 유저를 매칭 합니다.
+
+등록된 상태가 아니면 매칭 정보를 등록해달라는 메시지를 출력하고
+
+등록이 되어있으면 등록한 사용자들의 정보를 보여줍니다.
+
+변경사항이 있으면 다시 등록해 내 정보를 변경할 수 있습니다.
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FZhzVh%2FbtqBXVDqQr1%2FzXiLewNCIDYhFuyI7w49Ak%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2Fxvk5F%2FbtqB0eBxFJx%2FKyh4v0EvM74JQ8hT19MFNK%2Fimg.png)
+
+\-변경 전
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FdqeJ3F%2FbtqB1doPEAj%2F3br7rZhqrfc0pTtj7kiNnk%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FRc3Oj%2FbtqB1ccoE9I%2FyID0P2LSufEHtTpRyFCuA1%2Fimg.png)
+
+\-변경 후
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbGKFva%2FbtqBZfHT89v%2FAUZBhWFC6V6NfLsXHbv1w0%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FdlI7tl%2FbtqBYtGqQJD%2FnBOrpe6rwruj4eeAW0KQP1%2Fimg.png)
+
+> 전적 검색
+
+메인 페이지의 검색창에 리그 오브 레전드 닉네임을 입력하면 api를 이용해 최근 전적 20게임을 불러옵니다.
+
+불러온 데이터를 기반으로 최근 경기 킬/데스/어시스트를 그래프로 표시하고
+
+모스트 챔피언, 현재 리그 정보를 표시합니다.
+
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FHGZ6w%2FbtqBYe3QxIM%2F73UVbJVODKh5HKLpPRUnF1%2Fimg.png)
+
+> 라인 별 챔피언 추천
+
+초기 계획은 티어 별 추천 챔피언을 제공할 계획이었지만 상당히 많은 양의 데이터를 필요로 해서 다른 사이트의 정보를 파싱 해오는 것으로 대체했습니다.
+
+BeautifulSoup를 이용해 파싱 하고 수집한 데이터는 모달에 출력합니다.
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FyktOU%2FbtqB1c4Bi4C%2F2Jv5wJmL0L7U4pZQ82nR1K%2Fimg.png)
+![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FAg0hT%2FbtqB1mFVT6g%2F6ZuZZS8gpnQXwjQFWK7NU1%2Fimg.png)
+
+---
+
 
