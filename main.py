@@ -83,9 +83,9 @@ def search():
 
     url = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/{}".format(sum_name)
     res = requests.get(url=url,headers=headers)
+    if not res:
+        return redirect(url_for('no_user'))
     encrypted_id = res.json()['id'] #id 가져오기
-    if not encrypted_id:
-        return "아이디를 찾을 수 없습니다."
     accountId = res.json()['accountId']
     profileIcon_id = res.json()['profileIconId'] #소환사 프로필ID 가져오기
     
@@ -96,15 +96,15 @@ def search():
 
     #매치정보 불러오기
     url_GameID = "https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/{}?queue=420".format(accountId)  #{encryptedAccountId} = account_ID
+    #매치를 못찾을 경우
+    if not url_GameID:
+        return redirect(url_for('no_game'))
     res_GameID = requests.get(url=url_GameID, headers=headers)
     
     Matches = res_GameID.json()['matches'] #gameID가 들어있는 Mathes를 가져옴
     #매치 20개로 자르기
     Matches = Matches[:20]
 
-    #매치를 못찾을 경우
-    if not Matches:
-        return "이번 시즌 랭크 매치 정보를 찾을 수 없습니다."
     Game_IDs = []
     for Matche in Matches:
         Game_IDs.append(Matche['gameId'])
@@ -210,6 +210,14 @@ def search():
 
 
     #에러페이지 404, 500
+@app.route('/no_user')
+def no_user():
+    return render_template('no_user.html'), 404
+
+@app.route('/no_game')
+def no_game():
+    return render_template('no_game.html'), 500
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
