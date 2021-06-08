@@ -1,6 +1,8 @@
 from flask import Flask,render_template,request, url_for, session, redirect, flash
 from flask_bcrypt import Bcrypt
 from flask_pymongo import PyMongo
+import requests
+import json
 from konfig import Config
 cc = Config("./conf.ini")
 
@@ -18,7 +20,8 @@ bcrypt = Bcrypt(app)
 
 @app.route('/')
 def home():
-
+    if 'user' not in session:
+        return redirect(url_for('login'))
     return render_template('home.html')
 #에러페이지 404, 500
 @app.errorhandler(404)
@@ -31,14 +34,13 @@ def internal_server_error(e):
 
 @app.route('/login')
 def login():
+    # 카카오 로그인
     return render_template('login.html')
 
 @app.route('/logout')
 def logout():
     session.pop('email', None)
     return redirect(url_for('index'))
-
-
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
