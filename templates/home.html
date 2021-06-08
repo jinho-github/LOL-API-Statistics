@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<main class="mt-5 pt-5">
+  <div class="container">
+
+    <section class="card wow fadeIn"
+      style="background-color: blueviolet;">
+
+
+      <div class="card-body text-white text-center py-5 px-5 my-5">
+
+        <h1 class="mb-4">
+          <strong>소환사 정보 검색</strong>
+        </h1>
+        
+        <form action="/application">
+          <input type="text" name="name" />
+          <input class="btn btn-outline-white btn-sm" type="submit" value="검색" />
+        </form>
+      </div>
+
+    </section>
+
+{% endblock %}
+
+

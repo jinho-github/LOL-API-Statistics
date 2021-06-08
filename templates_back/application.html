@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!--Main layout-->
+<main class="mt-5 pt-5">
+  <div class="container">
+
+    <section class="team-section my-5">
+
+      <!--Grid row-->
+      <div class="row text-left">
+
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12">
+          <!-- Card -->
+          <div class="card">
+
+            <!-- Card image -->
+            <div class="view overlay">
+              {% if results[0][1] == 'IRON' %}
+              <img src="/static/img/emblems/Emblem_Iron.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'BRONZE' %}
+              <img src="/static/img/emblems/Emblem_Bronze.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'SILVER' %}
+              <img src="/static/img/emblems/Emblem_Silver.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'GOLD' %}
+              <img src="/static/img/emblems/Emblem_Gold.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'PLATINUM' %}
+              <img src="/static/img/emblems/Emblem_Platinum.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'DIAMOND' %}
+              <img src="/static/img/emblems/Emblem_Diamond.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'MASTER' %}
+              <img src="/static/img/emblems/Emblem_Master.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'GRANDMASTER' %}
+              <img src="/static/img/emblems/Emblem_Grandmaster.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% elif results[0][1] == 'CHALLENGER' %}
+              <img src="/static/img/emblems/Emblem_Challenger.png" style="width:50%" class="rounded mx-auto d-block"
+                alt="Card image cap">
+              {% endif %}
+
+
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+
+            <!-- Card content -->
+            <div class="card-body">
+
+            </div>
+
+            <!-- Card footer -->
+            <div class="rounded-bottom mdb-color lighten-3 text-center pt-3">
+              <ul class="list-unstyled list-inline font-small">
+                {% if length != 0 %}
+                {% for result in results %}
+                <li class="list-inline-item pr-2 white-text"> <strong>{{sum_name}}</strong> 님</li>
+                <li class="list-inline-item pr-2 white-text"><i class="fas fa-trophy"></i> {{result[1]}} {{result[2]}}
+                  리그</li>
+                <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-fire"></i>
+                    {{result[-1]}} P</a></li>
+                <li class="list-inline-item pr-2"><a href="#" class="white-text"><i class="fas fa-level-up-alt"></i>
+                    </i>{{result[3]}} 승</a></li>
+                <li class="list-inline-item"><a href="#" class="white-text"><i class="fas fa-level-down-alt"></i>
+                    {{result[4]}} 패</a></li>
+                {% endfor %}
+                {% else %}
+                <div>아직 리그가 없습니다. 분발하세요!</div>
+                {% endif %}
+
+              </ul>
+            </div>
+
+          </div>
+          <!-- Card -->
+        </div>
+        <!--Grid column-->
+        <div class="col-lg-6 col-md-12">
+          <div class="col">
+
+            <!--Grid row-->
+            <div class="row text-left">
+
+              <!--Grid column-->
+              <div class="col-lg-4 col-md-12">
+                <!--Image-->
+                <div class="view overlay rounded z-depth-1-half mb-">
+                  
+                  <img src="http://ddragon.leagueoflegends.com/cdn/9.20.1/img/champion/{{most_one[0]}}.png" class="img-thumbnail"
+                    alt="Sample post image">
+                  <a>
+                    <div class="mask rgba-white-slight"></div>
+                  </a>
+                </div>
+              </div>
+              <!--Grid column-->
+              <div class="col-lg-8 col-md-12">
+                <blockquote class="blockquote bq-primary">
+                  <h3 class="h3">MOST ONE</h3>
+                  <h6 class="h6-responsive">최근 20 게임 중 {{ most_num }}경기</h6>
+                  <h6 class="h6-responsive">{{ most_one[1] }}(으)로 승리</h6>
+                  
+                </blockquote>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col">
+            <h3 class="h3">최근 경기 K/D/A</h3>
+            <canvas id="lineChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    {% from 'game_list.html' import render_gamelist %}
+    {{ render_gamelist(my_most_one, Game_DATAs, zip) }}
+
+</main>
+<!--Main layout-->
+
+{% block script %}
+<script>
+  var kill_arr = [];
+  var assist_arr = [];
+  var death_arr = [];
+
+  {% for Game_DATA in Game_DATAs %}
+    kill_arr.push({{ Game_DATA['stats']['kills'] }});
+    assist_arr.push({{ Game_DATA['stats']['assists'] }});
+    death_arr.push({{ Game_DATA['stats']['deaths'] }});
+    
+  {% endfor %}
+  var ctxL = document.getElementById("lineChart").getContext('2d');
+  var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+      labels: ["7 게임 전", "6 게임 전", "5 게임 전", "4 게임 전", "3 게임 전", "2 게임 전", "최근 게임"],
+      datasets: [{
+        label: "K/A",
+        data: [kill_arr[6]+assist_arr[6], kill_arr[5]+assist_arr[5], kill_arr[4]+assist_arr[4], kill_arr[3]+assist_arr[3], kill_arr[2]+assist_arr[2], kill_arr[1]+assist_arr[1], kill_arr[0]+assist_arr[0] ],
+        backgroundColor: [
+          'rgba(0, 137, 132, .2)',
+        ],
+        borderColor: [
+          'rgba(0, 10, 130, .7)',
+        ],
+        borderWidth: 2
+      },
+      {
+        label: "D",
+        data: [death_arr[6], death_arr[5], death_arr[4], death_arr[3], death_arr[2], death_arr[1], death_arr[0]],
+
+        backgroundColor: [
+          'rgba(105, 0, 132, .2)',
+        ],
+        borderColor: [
+          'rgba(200, 99, 132, .7)',
+        ],
+        borderWidth: 2
+      }
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>
+{% endblock %}
+
+{% endblock %}

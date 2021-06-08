@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<!--Main layout-->
+<main class="mt-5 pt-5">
+    <div class="container">
+
+        <!--Section: Post-->
+        <section class="mt-4">
+
+            <!--Grid row-->
+            <div class="row">
+
+                <!--Grid column-->
+                <div class="col-md-8 mb-4">
+
+
+
+                    <!--Card-->
+                    <div class="card mb-4 wow fadeIn">
+
+                        <div class="card-header font-weight-bold">
+                            <span>내 정보</span>
+
+                        </div>
+
+                        <!--Card content-->
+                        <div class="card-body">
+
+                            <div class="media d-block d-md-flex mt-3">
+                                
+                                <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                    {% if my_info_list is defined  %}
+                                    <h5 class="mt-0 font-weight-bold">{{ my_info_list[1] }}
+                                    </h5>
+                                    <strong>주 라인 : {{ my_info_list[0] }}</strong><br>
+                                    <strong>주 챔피언 : {{ my_info_list[2] }}</strong><br>
+                                    <strong>승률 : </strong>
+                                    {% else %}
+                                    내 정보가 등록되지 않았습니다. <br>
+                                    매칭 정보를 등록해주세요.
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!--/.Card-->
+
+
+
+                    <!--Card-->
+                    <div class="card mb-4 wow fadeIn">
+
+                        <div class="card-header font-weight-bold">
+                            <span>매칭된 유저</span>
+                            
+                        </div>
+
+                        <!--Card content-->
+                        {% for i in range(0, user_info_list|length) %}
+                        <div class="card-body">
+
+                            <div class="media d-block d-md-flex mt-3">
+                                <div class="media-body text-center text-md-left ml-md-3 ml-0">
+                                    <h5 class="mt-0 font-weight-bold">{{user_info_list[i][1]}}
+                                    </h5>
+
+                                    <strong>주 라인 : {{user_info_list[i][0]}}</strong><br>
+                                    <strong>주 챔피언 : {{user_info_list[i][2]}}</strong><br>
+                                    <strong>승률 : </strong>
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <!--/.Card-->
+
+
+
+
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-4 mb-4">
+
+
+
+                    <!--Card : Dynamic content wrapper-->
+                    <div class="card mb-4 text-center wow fadeIn">
+
+                        <div class="card-header">유저매칭을 위해 입력해주세요!</div>
+
+                        <!--Card content-->
+                        <div class="card-body">
+
+                            <!-- Default form login -->
+                            <form method=POST action="{{ url_for('matching_user_add') }}">
+
+                                <!-- Default input email -->
+                                <label for="defaultFormEmailEx" class="grey-text">LOL 아이디</label>
+                                <input type="text" name = "matching_user_id" id="defaultFormLoginEmailEx" class="form-control">
+
+                                <br>
+
+
+                                <!-- select -->
+
+                                <select class="browser-default custom-select" name="matching_line_select">
+                                    <option selected>주로 하는 라인</option>
+                                    <option value="1">탑</option>
+                                    <option value="2">정글</option>
+                                    <option value="3">미드</option>
+                                    <option value="4">원딜</option>
+                                    <option value="5">서포터</option>
+                                    <option value="6">올라이너</option>
+                                </select>
+                                <!-- select -->
+
+                                <hr>
+                                <!-- Default input email -->
+                                <label for="defaultFormEmailEx" class="grey-text">주로 하는 챔피언</label>
+                                <input type="text" name="matching_champ" id="defaultFormLoginEmailEx" class="form-control">
+
+                                <br>
+
+
+                                <hr>
+
+
+                                <div class="text-center mt-4">
+                                    <button class="btn btn-info btn-md" type="submit">등록</button>
+                                </div>
+                            </form>
+                            <!-- Default form login -->
+
+                        </div>
+
+                    </div>
+                    <!--/.Card : Dynamic content wrapper-->
+
+
+
+                </div>
+                <!--Grid column-->
+
+            </div>
+            <!--Grid row-->
+
+        </section>
+        <!--Section: Post-->
+
+    </div>
+</main>
+
+
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<main class="mt-5 pt-5">
+    
+        <div class="container">
+      
+          
+                <table class="table table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">라인</th>
+                     
+                            <th scope="col">제목</th>
+                            
+                            <th scope="col">작성자</th>
+                         
+                          </tr>
+                        </thead>
+                        <tbody>
+                    
+                        {% for i in range(0, tip_list_size) %}
+                      <tr data-toggle="modal" data-target="#Top_modal{{ tip_list_size-i }}">
+                          <th scope="row">{{ tip_list_size-i }}</th>
+                          <td>{{ tip_lists[i][0] }} 팁</td>
+                      
+                          <td>{{ tip_lists[i][2] }}</td>
+                     
+                          <div class="text-right">
+                              <td>{{ tip_lists[i][4] }}</td>
+                          </div>
+                         
+                        </tr>
+                        {% endfor %}
+                    
+                        </tbody>
+                    </table>
+                    <div class="text-right">
+                    <button class="btn btn-default" data-toggle="modal" data-target="#writing_modal">글쓰기</button>
+                </div>
+            </div>
+
+      
+        </main>
+
+
+<!-- 글쓰기 모달 -->
+<div class="modal fade right" id="writing_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-full-height modal-right modal-notify modal-info" role="document">
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header">
+        <p class="heading lead">글쓰기
+        </p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="white-text">×</span>
+        </button>
+      </div>
+
+      <!--Body-->
+      <form method=POST action="{{ url_for('Tip_add') }}">
+      <div class="modal-body">
+        <div class="text-center">
+          <i class="far fa-file-alt fa-4x mb-3 animated rotateIn"></i>
+          <p>
+            <strong>나만의 팁</strong>
+          </p>
+          <p>게임을 플레이에 관한 팁이 있나요?</p>
+            <strong>나만의 팁을 작성해주세요!</strong>
+          </p>
+        </div>
+
+        <hr>
+
+        <!-- select -->
+        
+        <select class="browser-default custom-select" name = "tip_select">
+          <option selected>이 팁을 추천하고싶은 라이너</option>
+          <option value="1">탑</option>
+          <option value="2">정글</option>
+          <option value="3">미드</option>
+          <option value="4">원딜</option>
+          <option value="5">서포터</option>
+        </select>
+        <!-- select -->
+
+        <hr>
+
+        <label for="basic-url">유튜브 영상 첨부</label>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">https://www.youtube.com/watch?v=</span>
+          </div>
+          <input type="text" class="form-control" name = "tip_url" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+        
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">제목</span>
+          </div>
+          <input type="text" class="form-control" name = "tip_title" aria-label="Amount (to the nearest dollar)">
+        
+        </div>
+        
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">내용</span>
+          </div>
+          <textarea class="form-control" name = "tip_text" aria-label="With textarea"></textarea>
+        </div>
+
+        <div class="text-right">
+          <button class="btn btn-default" data-toggle="modal" data-target="#writing_modal">글쓰기</button>
+      </div>
+
+    </div>
+  </form>
+  </div>
+  
+</div>
+</div>
+<!-- 내용보기 모달 -->
+{% for i in range(0, tip_list_size) %}
+<div class="modal fade Top" id="Top_modal{{ tip_list_size-i }}" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+
+    <!-- Add class .modal-full-height and then add class .modal-right (or other classes from list above) to set a position to the modal -->
+    <div class="modal-dialog modal-full-height modal-Top" role="document">
+
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-100" id="myModalLabel">{{ tip_lists[i][2] }}</h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>{{ tip_lists[i][0] }}에게 추천하는 팁 입니다.</strong>
+                </p>
+                <hr>
+                <p><strong>유튜브 영상</strong></p>
+                <iframe width="100%" height="250" src="https://www.youtube.com/embed/{{ tip_lists[i][1] }}" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                ></iframe>
+                <td></td>
+                <hr>
+                <p><strong>내용</strong></p>
+
+
+
+                <td>{{ tip_lists[i][3] }}</td>
+
+
+                <div class="text-right">
+                    <td>작성자 : {{ tip_lists[i][4] }}</td>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
