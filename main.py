@@ -43,7 +43,7 @@ def login():
 @app.route('/oauth')
 def oauth():
     code = str(request.args.get('code'))
-    resToken = getAccessToken("0341add84c6502731953a8e222053bc9",str(code))  
+    resToken = getAccessToken("0341add84c6502731953a8e222053bc9",str(code))  # 발급받은 api key
     return 'code=' + str(code) + '<br/>response for token=' + str(resToken)
 
 def getAccessToken(clientId, code) :  # 세션 코드값 이용, ACESS TOKEN / REFRESH TOKEN을 발급
