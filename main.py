@@ -4,6 +4,8 @@ from flask_pymongo import PyMongo
 import requests
 import json
 from konfig import Config
+from urllib import parse
+
 cc = Config("./conf.ini")
 
 api_conf = cc.get_map("api")
@@ -36,6 +38,27 @@ def internal_server_error(e):
 def login():
     # 카카오 로그인
     return render_template('login.html')
+
+
+@app.route('/oauth')
+def oauth():
+    code = str(request.args.get('code'))
+    resToken = getAccessToken("0341add84c6502731953a8e222053bc9",str(code))  
+    return 'code=' + str(code) + '<br/>response for token=' + str(resToken)
+
+def getAccessToken(clientId, code) :  # 세션 코드값 이용, ACESS TOKEN / REFRESH TOKEN을 발급
+    myurl = parse.quote("http://127.0.0.1:5000/") # 토큰 돌려받을 주소 (서버주소)
+    url = "https://kauth.kakao.com/oauth/token"
+    payload = "grant_type=authorization_code"
+    payload += "&client_id=" + clientId
+    payload += f"&redirect_uri={myurl}oauth&code=" + code
+    headers = {
+        'Content-Type' : "application/x-www-form-urlencoded",
+        'Cache-Control' : "no-cache",
+    }
+    reponse = requests.request("POST",url,data=payload, headers=headers)
+    access_token = json.loads(((reponse.text).encode('utf-8')))
+    return access_token
 
 @app.route('/logout')
 def logout():
