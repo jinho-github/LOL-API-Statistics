@@ -44,7 +44,12 @@ def login():
 def oauth():
     code = str(request.args.get('code'))
     resToken = getAccessToken("0341add84c6502731953a8e222053bc9",str(code))  # 발급받은 api key
-    return 'code=' + str(code) + '<br/>response for token=' + str(resToken)
+    # db에 아이디 없으면 db저장
+
+    # 있으면 루트 home.html로 redirect
+    print(str(code))
+    print(str(resToken))
+    return "인증오류발생"
 
 def getAccessToken(clientId, code) :  # 세션 코드값 이용, ACESS TOKEN / REFRESH TOKEN을 발급
     myurl = parse.quote("http://127.0.0.1:5000/") # 토큰 돌려받을 주소 (서버주소)
