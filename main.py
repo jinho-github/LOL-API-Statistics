@@ -5,7 +5,6 @@ import requests
 import json
 from konfig import Config
 from urllib import parse
-
 cc = Config("./conf.ini")
 
 api_conf = cc.get_map("api")
@@ -44,12 +43,28 @@ def login():
 def oauth():
     code = str(request.args.get('code'))
     resToken = getAccessToken("0341add84c6502731953a8e222053bc9",str(code))  # 발급받은 api key
-    # db에 아이디 없으면 db저장
-
-    # 있으면 루트 home.html로 redirect
-    print(str(code))
-    print(str(resToken))
-    return "인증오류발생"
+    access_token = resToken.get("access_token") #유저정보를 받을 권한이 있는 토큰
+    
+    #access tokent 기반으로 유저 정보 요청
+    profile_request = requests.get(
+            "https://kapi.kakao.com/v2/user/me", headers={"Authorization" : f"Bearer {access_token}"},
+        )
+    data = profile_request.json()
+    print(data)
+    
+    # db에 등록된 email인지 체크
+    # myuser = mongo.db.user_Info
+    # existing_user = myuser.find_one({'email' : request.form['register_email']})
+    # if existing_user is None:
+    #     hashpass = bcrypt.generate_password_hash(request.form['register_pw2'])
+    #     myuser.insert({'email' : request.form['register_email'], 'password' : hashpass})
+    #     return redirect(url_for('home'))
+    # # 있으면 루트 home.html로 redirect
+    # else:
+    #     print(str(code))
+    #     print(str(resToken))
+    return "test"
+    
 
 def getAccessToken(clientId, code) :  # 세션 코드값 이용, ACESS TOKEN / REFRESH TOKEN을 발급
     myurl = parse.quote("http://127.0.0.1:5000/") # 토큰 돌려받을 주소 (서버주소)
