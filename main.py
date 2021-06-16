@@ -5,6 +5,8 @@ import requests
 import json
 from konfig import Config
 from urllib import parse
+from datetime import datetime
+
 cc = Config("./conf.ini")
 
 api_conf = cc.get_map("api")
@@ -46,23 +48,25 @@ def oauth():
     access_token = resToken.get("access_token") #유저정보를 받을 권한이 있는 토큰
     
     #access tokent 기반으로 유저 정보 요청
-    profile_request = requests.get(
-            "https://kapi.kakao.com/v2/user/me", headers={"Authorization" : f"Bearer {access_token}"},
-        )
-    data = profile_request.json()
-    print(data)
-    
-    # db에 등록된 email인지 체크
-    # myuser = mongo.db.user_Info
-    # existing_user = myuser.find_one({'email' : request.form['register_email']})
-    # if existing_user is None:
-    #     hashpass = bcrypt.generate_password_hash(request.form['register_pw2'])
-    #     myuser.insert({'email' : request.form['register_email'], 'password' : hashpass})
-    #     return redirect(url_for('home'))
-    # # 있으면 루트 home.html로 redirect
-    # else:
-    #     print(str(code))
-    #     print(str(resToken))
+    profile_request = requests.get("https://kapi.kakao.com/v2/user/me", headers={"Authorization" : f"Bearer {access_token}"})
+    profile_json = profile_request.json()
+    kakao_id = profile_json.get("id") # 회원 아이디로 사용
+
+    # db에 등록된 id 인지 체크
+    myuser = mongo.db.user_Info
+    existing_user = myuser.find_one({'user_id' : kakao_id})
+
+    # 등록된 회원이 아닌경우
+    if existing_user is None:
+        myuser.insert({'user_id' : kakao_id, 'nickname' : '', 'lol_nickname':'', 'login_date': '', 'sign_up_date': datetime.now()})
+        return redirect(url_for('home'))
+    # 등록된 회원인 경우
+    else:
+        # 로그인 시간 update
+
+        # 세션에 회원 아이디 삽입
+
+        return redirect(url_for('home'))
     return "test"
     
 
