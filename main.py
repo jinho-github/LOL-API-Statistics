@@ -63,7 +63,7 @@ def oauth():
     # 등록된 회원인 경우
     else:
         # 로그인 시간 update
-
+        myuser.update({'user_id' : kakao_id, 'login_date': datetime.now()})
         # 세션에 회원 아이디 삽입
 
         return redirect(url_for('home'))
