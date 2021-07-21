@@ -4,6 +4,7 @@ import requests
 import json
 from flask_bcrypt import Bcrypt
 from flask_pymongo import PyMongo
+import urllib.parse
 
 auth = Blueprint('auth', __name__)
 # mongo = PyMongo(current_app.config['MONGO_URI'])

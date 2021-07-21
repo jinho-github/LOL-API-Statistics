@@ -5,21 +5,44 @@
 <main class="mt-5 pt-5">
   <div class="container">
 
-    <section class="card wow fadeIn" style="background-color: blueviolet;">
-
-
-      <div class="card-body text-white text-center py-5 px-5 my-5">
-
-        <h1 class="mb-4">
-          <strong>소환사 정보 검색</strong>
-        </h1>
-
-        <form action="/application">
-          <input type="text" name="name" />
-          <input class="btn btn-outline-white btn-sm" type="submit" value="검색" />
-        </form>
+    <section>
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative"  style="height: 190px; margin: 5px;">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-primary">전적검색</strong>
+              <input type="text">
+              
+              <a href="#" class="stretched-link">#최근검색1 #최근검색2</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+                <button>전적검색</button>    
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative" style="height: 190px; margin: 5px;">
+            <div class="col p-4 d-flex flex-column position-static">
+              <strong class="d-inline-block mb-2 text-success">유저매칭</strong>
+              <h3 class="mb-0">내 아이디</h3>
+              <div class="mb-1 text-muted">레벨</div>
+              <p class="mb-auto">상대방에게 한줄</p>
+              <a href="#" class="stretched-link">수정</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+              <button>매칭</button>
+    
+            </div>
+          </div>
+        </div>
       </div>
-
     </section>
 
+    <!-- 탑 티어 캐릭터 정보 -->
+    <section>
+      <div class="row">
+        
+      </div>
+    </section>
+  </div>
     {% endblock %}

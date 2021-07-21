@@ -52,8 +52,12 @@
           </ul>
           
             <button type="button" class="btn btn-primary" data-toggle="modal" onclick="location.href='/'" >내 정보</button>
+            {% if session['username'] %}
             <button type="button" class="btn btn-info" data-toggle="modal" onclick="location.href='/logout'">로그아웃</button>
-      
+            {% else %}
+            <button type="button" class="btn btn-info" data-toggle="modal" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=0341add84c6502731953a8e222053bc9&redirect_uri=http://127.0.0.1:5000/oauth&response_type=code&scope=talk_message';">로그인</button>
+
+            {% endif %}
 
           </ul>
           
